@@ -61,14 +61,6 @@ function start()
         document.location.href = "index.html";
     }
 }
-    function endgame()
-    {
-        clearInterval(i);
-        localStorage.clear();
-        window.alert("Thanks!");
-        window.close();
-    }
-}
 function endgame()
 {
     localStorage.clear();
