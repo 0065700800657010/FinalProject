@@ -26,7 +26,8 @@
             {
                 var tmp = localStorage.key(i);
                 var n = tmp.startsWith("00657008.10-")
-                if (n == true) {
+                if (n == true)
+                {
                     sub = tmp.substring(12);
                     //console.log(sub);
                     if (sub == "name")
@@ -60,7 +61,7 @@
             clearInterval(i);
             localStorage.clear();
             window.alert("Thanks!");
-            window.close();
+            document.location.href = "index.html";
         }
         window.addEventListener("load",start,false);
     </script>

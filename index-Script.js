@@ -38,7 +38,7 @@ function endgame()
 {
     localStorage.clear();
     window.alert("Thanks!");
-    window.close();
+    location.reload();
 }
 function prompt1()
 {    
