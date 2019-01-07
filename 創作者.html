@@ -10,8 +10,11 @@
         var i;
         function renew()
         {
-            coin = localStorage.getItem("00657008.10-coin");
-            document.getElementById("Coin").innerHTML = "$" + coin;
+            if (localStorage.getItem("00657008.10-coin") != null)
+            {
+                coin = localStorage.getItem("00657008.10-coin");
+                document.getElementById("Coin").innerHTML = "$" + coin;
+            }
         }
         function start()
         {
