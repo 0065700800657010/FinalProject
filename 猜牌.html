@@ -243,7 +243,7 @@
         var s = -1;
         var c = -1;
         var bet;
-        var cn, ck;
+        var cn, cs, cc;
         var coin;
         function newgame()
         {
@@ -294,22 +294,29 @@
                 n = -1;
                 s = -1;
                 c = -1;
-                for (var i = 0; i < 13; i++) {
+                //console.log("New Game:n=" + n + " s=" + s + " c=" + c);
+                for (var i = 0; i < 13; i++)
+                {
                     document.getElementById(num_buttons[i]).disabled = true;
                     document.getElementById(num_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[i] + "px;z-index: 3;");
                 }
-                for (var i = 0; i < 4; i++) {
+                for (var i = 0; i < 4; i++)
+                {
                     document.getElementById(suit_buttons[i]).disabled = true;
                     document.getElementById(suit_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:80px;left:" + suit_buttons_left[i] + "px;z-index: 3;");
                 }
-                for (var i = 0; i < 2; i++) {
+                for (var i = 0; i < 2; i++)
+                {
                     document.getElementById(color_buttons[i]).disabled = true;
                     document.getElementById(color_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:115px;left:" + color_buttons_left[i] + "px;z-index: 3;");
                 }
-
                 cn = Math.floor(Math.random() * 13);
                 cs = Math.floor(Math.random() * 4);
-                 //console.log("cn=" + cn + ", num[cn]=" + num[cn] + ", cs=" + cs + ", suit[cs]=" + suit[cs]);
+                if (cs == 1 || cs == 2)
+                    cc = 0;
+                else
+                    cc = 1;
+                //console.log("cn=" + cn + ", cs=" + cs + ", num[cn]=" + num[cn] + ", suit[cs]=" + suit[cs]);
             }
             else
             {
@@ -319,6 +326,10 @@
         }
         function sure()
         {
+            n = -1;
+            s = -1;
+            c = -1;
+            //console.log("Sure:n=" + n + " s=" + s + " c=" + c);
             bet = parseInt(document.getElementById("bet").value);
             //console.log("bet=" + bet);
             document.getElementById("bet").disabled = true;
@@ -347,6 +358,7 @@
             n = -1;
             s = -1;
             c = -1;
+            //console.log("Reset:n=" + n + " s=" + s + " c=" + c);
             document.getElementById("pick").disabled = true;
             document.getElementById("pick").setAttribute("class", "pick_unavaliable");
             for (var i = 0; i < 13; i++)
@@ -375,8 +387,8 @@
             for (var i = 0; i < 2; i++)
                 document.getElementById(color_buttons[i]).disabled = true;
             document.getElementById("pick").disabled = true;
-            /*console.log("n=" + n + ", s=" + s + ", c=" + c);
-            console.log("bet=" + bet);*/
+            //console.log("Pick:n=" + n + ", s=" + s + ", c=" + c);
+            //console.log("bet=" + bet);
             detect();
             if (n != -1)
                 document.getElementById("betnumber").innerHTML = "您下注的數字：" + num[n];
@@ -650,37 +662,64 @@
         }
         function detect()
         {
-            if (n != -1)
+            //console.log("detect:n=" + n + ", s=" + s + ", c=" + c);
+            if (n != -1 && s != -1 && c != -1)
             {
-                if (n == cn)
+                //console.log("Number, Suit, Color");
+                if (n == cn && s == cs && c == cc)
+                    bet *= 15;
+                else
+                    bet = -bet;
+            }
+            else if (n == -1 && s != -1 && c != -1)
+            {
+                //console.log("Suit, Color");
+                if (s == cs && c == cc)
+                    bet *= 3;
+                else
+                    bet = -bet;
+            }
+            else if (n != -1 && s == -1 && c != -1)
+            {
+                //console.log("Number, Color");
+                if (n == cn && c == cc)
+                    bet *= 7.5;
+                else
+                    bet = -bet;
+            }
+            else if (n != -1 && s != -1 && c == -1)
+            {
+                //console.log("Number, Suit");
+                if (n == cn && s == cs)
                     bet *= 10;
                 else
                     bet = -bet;
             }
-            if (s != -1)
+            else if (n != -1 && s == -1 && c == -1)
             {
-                if (s == cs)
+                //console.log("Number");
+                if (n == cn)
                     bet *= 5;
                 else
                     bet = -bet;
-            }     
-            if (c != -1)
-            {
-                if (c == 0)
-                {
-                    if (cs == 1 || cs == 2)
-                        bet *= 2;
-                    else
-                        bet = -bet;
-                }
-                else
-                {
-                    if (cs == 0 || cs == 3)
-                        bet *= 2;
-                    else
-                        bet = -bet;
-                }    
             }
+            else if (n == -1 && s != 1 && c == -1)
+            {
+                //console.log("Suit");
+                if (s == cs)
+                    bet *= 2;
+                else
+                    bet = -bet;
+            }
+            else if (n == -1 && s == -1 && c != -1)
+            {
+                //console.log("Color");
+                if (c == cc)
+                    bet *= 1.5;
+                else
+                    bet = -bet;
+            }
+            
         }
         window.addEventListener("load", newgame, false);
     </script>
@@ -693,7 +732,7 @@
         <p>規則:</p>
         <p>請先選擇想下的賭注金額，接著在下方欄位選擇您想下注的類型。若想重新選擇請按Reset按鈕。</p>
         <p>獎金方式：</p>
-        <p>猜對數字獲得<span>10</span>倍獎金，猜對花色獲得<span>5</span>倍獎金，猜對顏色獲得<span>2</span>倍獎金</p>
+        <p>猜對數字獲得<span>5</span>倍獎金，猜對花色獲得<span>2</span>倍獎金，猜對顏色獲得<span>1.5</span>倍獎金</p>
         <p><span>注意！！！</span>若只要有一項猜錯則獎金歸零，請進慎選擇，多多利用<span>Reset</span>按鈕！！</p>
     </div>
     <div id="button">
