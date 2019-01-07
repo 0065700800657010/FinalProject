@@ -1,0 +1,710 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>猜牌</title>
+    <style type="text/css">
+        .background_image
+        {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width:100%;
+            height: 100%;
+            opacity: 0.5;
+            z-index: 1;
+        }
+        .rule
+        {
+            position:absolute;
+            top:5px;
+            width: 750px;
+            border: dotted;
+            background-color: aquamarine;
+            z-index:2;
+        }
+        #button
+        {
+            position: absolute;
+            width: 1070px;
+            top: 230px;
+            z-index: 2;
+        }
+        #bet
+        {
+            position: absolute;
+            top: 0px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        .sure_avaliable
+        {
+            position: absolute;
+            top: 0px;
+            left: 180px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        .sure_unavaliable
+        {
+            position: absolute;
+            top: 0px;
+            left: 180px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            opacity: 0.5;
+            z-index: 3;
+        }
+        #new
+        {
+            position: absolute;
+            top: 0px;
+            left: 300px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        #bets
+        {
+            position:absolute;
+            top:300px;
+            width: 750px;
+            height:210px;
+            border: double;
+            background-color: royalblue;
+            z-index:2;
+        }
+        .reset_avaliable
+        {
+            position: absolute;
+            background-color: white;
+            color: rebeccapurple;
+            font-size: 20px;
+            font-weight: bold;
+            top: 10px;
+            left: 5px;
+            z-index: 3;
+        }
+        .reset_unavaliable
+        {
+            position: absolute;
+            background-color: white;
+            color: rebeccapurple;
+            font-size: 20px;
+            font-weight: bold;
+            opacity: 0.5;
+            top: 10px;
+            left: 5px;
+            z-index: 3;
+        }
+        .pick_unavaliable
+        {
+            position: absolute;
+            top: 150px;
+            left: 5px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            opacity: 0.5;
+            z-index: 3;
+        }
+        .pick_avaliable
+        {
+            position: absolute;
+            top: 150px;
+            left: 5px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        #card
+        {
+            position:absolute;
+            top: 530px;
+            width: 750px;
+            height:240px;
+            border: dashed;
+            background-color: burlywood;
+            z-index:2;
+        }
+        #betnumber
+        {
+            position:absolute;
+            font-size:150%;
+            font-weight:bold;
+            top:0px;
+            left:180px;
+            color:navy;
+            z-index:3;
+        }
+        #betsuit
+        {
+            position: absolute;
+            font-size: 150%;
+            font-weight: bold;
+            top: 30px;
+            left: 180px;
+            color: navy;
+            z-index: 3;
+        }
+        #betcolor
+        {
+            position: absolute;
+            font-size: 150%;
+            font-weight: bold;
+            top: 60px;
+            left: 180px;
+            color: navy;
+            z-index: 3;
+        }
+        #cards
+        {
+            position:absolute;
+            height:200px;
+            top:15px;
+            left:5px;
+            z-index:3;
+        }
+        #result
+        {
+            position: absolute;
+            text-align: center;
+            top: 120px;
+            left: 180px;
+            width: 550px;
+            height: 100px;
+            border: dashed;
+            background-color: darkslateblue;
+            z-index: 3;
+        }
+        #resulttext
+        {
+            position: absolute;
+            top: -45px;
+            left: 10px;
+            font-size: 60px;
+            color: aliceblue;
+            z-index: 4;
+        }
+        span
+        {
+            font-size: 150%;
+            color: red;
+        }
+        .right
+        {
+            position: absolute;
+            z-index: 1;
+            margin-top:10px;
+            left:1500px ;
+        }
+        .hello
+        {
+            position: absolute;
+            text-align: right;    
+            right: 200px;
+            font-size: 40px;    
+            font-weight: bold;
+            color: rgb(228, 253, 1);
+            z-index: 2;
+        }
+        .coin
+        {
+            position: absolute;
+            text-align: center;    
+            width: 200px;
+            height: 50px;
+            color: black;
+            font-size: 45px;    
+            background-color: orange;
+            z-index: 2;
+            right: 0px;
+            top: 0px;
+        }
+    </style>
+    <script type="text/javascript">
+        var suit = ["spades", "hearts", "diamonds", "clubs"];
+        var num = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+        var num_buttons = ["two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "jack", "queen", "king", "ace"];
+        var num_buttons_left = ["5", "40", "75", "110", "145", "180", "215", "250", "285", "335", "370", "410", "450"];
+        var suit_buttons = ["spades", "hearts", "diamonds", "clubs"];
+        var suit_buttons_left = ["5", "100", "187", "310"];
+        var color_buttons = ["red", "black"];
+        var color_buttons_left = ["5", "70"];
+        var n = -1;
+        var s = -1;
+        var c = -1;
+        var bet;
+        var cn, ck;
+        var coin;
+        function newgame()
+        {
+            name=localStorage.getItem("name");
+            document.getElementById("Hello").innerHTML="Hello,"+name+":";
+            coin=localStorage.getItem("coin");
+            document.getElementById("Coin").innerHTML="$"+coin;
+            document.getElementById("bet").disabled = false;
+            document.getElementById("sure").disabled = false;
+            document.getElementById("sure").setAttribute("class", "sure_avaliable");
+            document.getElementById("reset").disabled = true;
+            document.getElementById("reset").setAttribute("class", "reset_unavaliable");
+            document.getElementById("pick").disabled = true;
+            document.getElementById("pick").setAttribute("class", "pick_unavaliable");
+            document.getElementById("cards").setAttribute("src", "back.jpg");
+            document.getElementById("cards").setAttribute("alt", "back");
+            document.getElementById("betnumber").innerHTML = "您下注的數字：";
+            document.getElementById("betsuit").innerHTML = "您下注的花色：";
+            document.getElementById("betcolor").innerHTML = "您下注的顏色：";
+            document.getElementById("resulttext").innerHTML = "您獲得：？？？元";
+            n = -1;
+            s = -1;
+            c = -1;
+            for (var i = 0; i < 13; i++)
+            {
+                document.getElementById(num_buttons[i]).disabled = true;
+                document.getElementById(num_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[i]+"px;z-index: 3;");
+            }         
+            for (var i = 0; i < 4; i++)
+            {
+                document.getElementById(suit_buttons[i]).disabled = true;
+                document.getElementById(suit_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:80px;left:" + suit_buttons_left[i] + "px;z-index: 3;");
+            }                
+            for (var i = 0; i < 2; i++)
+            {
+                document.getElementById(color_buttons[i]).disabled = true;
+                document.getElementById(color_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:115px;left:" + color_buttons_left[i] + "px;z-index: 3;");
+            }
+            
+            cn = Math.floor(Math.random() * 13);
+            cs = Math.floor(Math.random() * 4);
+            console.log("cn=" + cn + ", num[cn]=" + num[cn] + ", cs=" + cs + ", suit[cs]=" + suit[cs]);
+        }
+        function sure()
+        {
+            bet = parseInt(document.getElementById("bet").value);
+            console.log("bet=" + bet);
+            document.getElementById("bet").disabled = true;
+            document.getElementById("sure").disabled = true;
+            document.getElementById("sure").setAttribute("class", "sure_unavaliable");
+            document.getElementById("reset").disabled = false;
+            document.getElementById("reset").setAttribute("class", "reset_avaliable");
+            for (var i = 0; i < 13; i++)
+            {
+                document.getElementById(num_buttons[i]).disabled = false;
+                document.getElementById(num_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[i] + "px;z-index: 3;");
+            }          
+            for (var i = 0; i < 4; i++)
+            {
+                document.getElementById(suit_buttons[i]).disabled = false;
+                document.getElementById(suit_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:80px;left:" + suit_buttons_left[i] + "px;z-index: 3;");
+            }   
+            for (var i = 0; i < 2; i++)
+            {
+                document.getElementById(color_buttons[i]).disabled = false;
+                document.getElementById(color_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:115px;left:" + color_buttons_left[i] + "px;z-index: 3;");
+            }
+        }
+        function reset()
+        {
+            n = -1;
+            s = -1;
+            c = -1;
+            document.getElementById("pick").disabled = true;
+            document.getElementById("pick").setAttribute("class", "pick_unavaliable");
+            for (var i = 0; i < 13; i++)
+           {
+                document.getElementById(num_buttons[i]).disabled = false;
+                document.getElementById(num_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[i] + "px;z-index: 3;");
+            }
+            for (var i = 0; i < 4; i++)
+            {
+                document.getElementById(suit_buttons[i]).disabled = false;
+                document.getElementById(suit_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:80px;left:" + suit_buttons_left[i] + "px;z-index: 3;");
+            }
+            for (var i = 0; i < 2; i++)
+            {
+                document.getElementById(color_buttons[i]).disabled = false;
+                document.getElementById(color_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:115px;left:" + color_buttons_left[i] + "px;z-index: 3;");
+            }
+        }
+        function pick()
+        {
+            document.getElementById("reset").disabled = true;
+            for (var i = 0; i < 13; i++)
+                document.getElementById(num_buttons[i]).disabled = true;
+            for (var i = 0; i < 4; i++)
+                document.getElementById(suit_buttons[i]).disabled = true;
+            for (var i = 0; i < 2; i++)
+                document.getElementById(color_buttons[i]).disabled = true;
+            document.getElementById("pick").disabled = true;
+            console.log("n=" + n + ", s=" + s + ", c=" + c);
+            console.log("bet=" + bet);
+            detect();
+            if (n != -1)
+                document.getElementById("betnumber").innerHTML = "您下注的數字：" + num[n];
+            else
+                document.getElementById("betnumber").innerHTML = "您下注的數字：無";
+            if (s != -1)
+                document.getElementById("betsuit").innerHTML = "您下注的花色：" + suit_buttons[s];
+            else
+                document.getElementById("betsuit").innerHTML = "您下注的花色：無";
+            if (c != -1)
+                document.getElementById("betcolor").innerHTML = "您下注的顏色：" + color_buttons[c];
+            else
+                document.getElementById("betcolor").innerHTML = "您下注的顏色：無";
+            document.getElementById("cards").setAttribute("src", suit[cs] + "-" + num[cn] + ".jpg");
+            document.getElementById("cards").setAttribute("alt", suit[cs] + "-" + num[cn]);
+            document.getElementById("resulttext").innerHTML = "您獲得：" + bet + "元";
+            var coin1=parseInt(coin);
+            var bet1=parseInt(bet);
+            coin=coin1+bet1;
+            document.getElementById("Coin").innerHTML="$"+coin;
+            localStorage.setItem("coin",coin);      
+        }
+        function clicktwo()
+        {
+            document.getElementById(num_buttons[0]).disabled = true;
+            document.getElementById(num_buttons[0]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[0] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+                
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 0;
+        }
+        function clickthree()
+        {
+            document.getElementById(num_buttons[1]).disabled = true;
+            document.getElementById(num_buttons[1]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[1] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 1;
+        }
+        function clickfour()
+        {
+            document.getElementById(num_buttons[2]).disabled = true;
+            document.getElementById(num_buttons[2]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[2] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 2;
+        }
+        function clickfive()
+        {
+            document.getElementById(num_buttons[3]).disabled = true;
+            document.getElementById(num_buttons[3]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[3] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 3;
+        }
+        function clicksix()
+        {
+            document.getElementById(num_buttons[4]).disabled = true;
+            document.getElementById(num_buttons[4]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[4] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 4;
+        }
+        function clickseven()
+        {
+            document.getElementById(num_buttons[5]).disabled = true;
+            document.getElementById(num_buttons[5]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[5] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 5;
+        }
+        function clickeight()
+        {
+            document.getElementById(num_buttons[6]).disabled = true;
+            document.getElementById(num_buttons[6]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[6] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 6;
+        }
+        function clicknine()
+        {
+            document.getElementById(num_buttons[7]).disabled = true;
+            document.getElementById(num_buttons[7]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[7] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 7;
+        }
+        function clickten()
+        {
+            document.getElementById(num_buttons[8]).disabled = true;
+            document.getElementById(num_buttons[8]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[8] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 8;
+        }
+        function clickjack()
+        {
+            document.getElementById(num_buttons[9]).disabled = true;
+            document.getElementById(num_buttons[9]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[9] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 9;
+        }
+        function clickqueen()
+        {
+            document.getElementById(num_buttons[10]).disabled = true;
+            document.getElementById(num_buttons[10]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[10] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 10;
+        }
+        function clickking()
+        {
+            document.getElementById(num_buttons[11]).disabled = true;
+            document.getElementById(num_buttons[11]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[11] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 11;
+        }
+        function clickace()
+        {
+            document.getElementById(num_buttons[12]).disabled = true;
+            document.getElementById(num_buttons[12]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[12] + "px;z-index: 3;");
+            if (n != -1)
+            {
+                document.getElementById(num_buttons[n]).disabled = false;
+                document.getElementById(num_buttons[n]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:45px;left:" + num_buttons_left[n] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            n = 12;
+        }
+        function clickspade()
+        {
+            document.getElementById(suit_buttons[0]).disabled = true;
+            document.getElementById(suit_buttons[0]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:80px;left:" + suit_buttons_left[0] + "px;z-index: 3;");
+            if (s != -1)
+            {
+                document.getElementById(suit_buttons[s]).disabled = false;
+                document.getElementById(suit_buttons[s]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:80px;left:" + suit_buttons_left[s] + "px;z-index: 3;");
+            }       
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            s = 0;
+        }
+        function clickheart()
+        {
+            document.getElementById(suit_buttons[1]).disabled = true;
+            document.getElementById(suit_buttons[1]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:80px;left:" + suit_buttons_left[1] + "px;z-index: 3;");
+            if (s != -1)
+            {
+                document.getElementById(suit_buttons[s]).disabled = false;
+                document.getElementById(suit_buttons[s]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;0.5;top:80px;left:" + suit_buttons_left[s] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            s = 1;
+        }
+        function clickdiamond()
+        {
+            document.getElementById(suit_buttons[2]).disabled = true;
+            document.getElementById(suit_buttons[2]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:80px;left:" + suit_buttons_left[2] + "px;z-index: 3;");
+            if (s != -1)
+            {
+                document.getElementById(suit_buttons[s]).disabled = false;
+                document.getElementById(suit_buttons[s]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;0.5;top:80px;left:" + suit_buttons_left[s] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            s = 2;
+        }
+        function clickclub()
+        {
+            document.getElementById(suit_buttons[3]).disabled = true;
+            document.getElementById(suit_buttons[3]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:80px;left:" + suit_buttons_left[3] + "px;z-index: 3;");
+            if (s != -1)
+            {
+                document.getElementById(suit_buttons[s]).disabled = false;
+                document.getElementById(suit_buttons[s]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:80px;left:" + suit_buttons_left[s] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            s = 3;
+        }
+        function clickred()
+        {
+            document.getElementById(color_buttons[0]).disabled = true;
+            document.getElementById(color_buttons[0]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:115px;left:" + color_buttons_left[0] + "px;z-index: 3;");
+            if (c != -1)
+            {
+                document.getElementById(color_buttons[c]).disabled = false;
+                document.getElementById(color_buttons[c]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:115px;left:" + color_buttons_left[c] + "px;z-index: 3;");
+            }     
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            c = 0;
+        }
+        function clickblack()
+        {
+            document.getElementById(color_buttons[1]).disabled = true;
+            document.getElementById(color_buttons[1]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:115px;left:" + color_buttons_left[1] + "px;z-index: 3;");
+            if (c != -1)
+            {
+                document.getElementById(color_buttons[c]).disabled = false;
+                document.getElementById(color_buttons[c]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:115px;left:" + color_buttons_left[c] + "px;z-index: 3;");
+            }
+            document.getElementById("pick").disabled = false;
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            c = 1;
+        }
+        function detect()
+        {
+            if (n != -1)
+            {
+                if (n == cn)
+                    bet *= 10;
+                else
+                    bet = -bet;
+            }
+            if (s != -1)
+            {
+                if (s == cs)
+                    bet *= 5;
+                else
+                    bet = -bet;
+            }     
+            if (c != -1)
+            {
+                if (c == 0)
+                {
+                    if (cs == 1 || cs == 2)
+                        bet *= 2;
+                    else
+                        bet = -bet;
+                }
+                else
+                {
+                    if (cs == 0 || cs == 3)
+                        bet *= 2;
+                    else
+                        bet = -bet;
+                }    
+            }
+        }
+        window.addEventListener("load", newgame, false);
+    </script>
+</head>
+<body>
+    <p>
+        <img src="web-background.jpg" class="background_image" alt="background" />
+    </p>
+    <div class="rule">
+        <p>規則:</p>
+        <p>請先選擇想下的賭注金額，接著在下方欄位選擇您想下注的類型。若想重新選擇請按Reset按鈕。</p>
+        <p>獎金方式：</p>
+        <p>猜對數字獲得<span>10</span>倍獎金，猜對花色獲得<span>5</span>倍獎金，猜對顏色獲得<span>2</span>倍獎金</p>
+        <p><span>注意！！！</span>若只要有一項猜錯則獎金歸零，請進慎選擇，多多利用<span>Reset</span>按鈕！！</p>
+    </div>
+    <div id="button">
+        <input id="bet" type="number" min="1000" max="100000" step="1000" value="5000">
+        <input id="sure" type="button" value="確定" onclick="sure()">
+        <input id="new" type="button" value="New Game!!" onclick="newgame()">
+    </div>
+    <div id="bets">
+            <input id="reset" type="button" value="Reset" onclick="reset()">
+            <input id="two" type="button" value="2" onclick="clicktwo()">
+            <input id="three" type="button" value="3" onclick="clickthree()">
+            <input id="four" type="button" value="4" onclick="clickfour()">
+            <input id="five" type="button" value="5" onclick="clickfive()">
+            <input id="six" type="button" value="6" onclick="clicksix()">
+            <input id="seven" type="button" value="7" onclick="clickseven()">
+            <input id="eight" type="button" value="8" onclick="clickeight()">
+            <input id="nine" type="button" value="9" onclick="clicknine()">
+            <input id="ten" type="button" value="10" onclick="clickten()">
+            <input id="jack" type="button" value="J" onclick="clickjack()">
+            <input id="queen" type="button" value="Q" onclick="clickqueen()">
+            <input id="king" type="button" value="K" onclick="clickking()">
+            <input id="ace" type="button" value="A" onclick="clickace()">
+            <input id="spades" type="button" value="spades" onclick="clickspade()">
+            <input id="hearts" type="button" value="hearts" onclick="clickheart()">
+            <input id="diamonds" type="button" value="diamonds" onclick="clickdiamond()">
+            <input id="clubs" type="button" value="clubs" onclick="clickclub()">
+            <input id="red" type="button" value="Red" onclick="clickred()">
+            <input id="black" type="button" value="Black" onclick="clickblack()">
+            <input id="pick" type="button" value="翻牌" onclick="pick()">
+    </div>
+    <div id="card">
+        <p id="betnumber"></p>
+        <p id="betsuit"></p>
+        <p id="betcolor"></p>
+        <img id="cards" src="back.jpg" alt="back">
+        <div id="result">
+            <p id="resulttext"></p>
+        </div>
+    </div>
+    <div class="right">
+        <div class="hello" id="Hello"></div>
+        <div class="coin" id="Coin"></div>
+    </div>
+</body>
+</html>

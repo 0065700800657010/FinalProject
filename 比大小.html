@@ -1,0 +1,413 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>比大小</title>
+    <style type="text/css">
+        .background_image
+        {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width:100%;
+            height: 100%;
+            opacity: 0.5;
+            z-index: 1;
+        }
+        span
+        {
+            font-size: 150%;
+            color: red;
+        }
+        #rule
+        {
+            position:absolute;
+            width:500px;
+            border:dotted;
+            background-color:aquamarine;
+            z-index:2;
+        }
+        #buttons
+        {
+            position: absolute;
+            width: 1070px;
+            top: 230px;
+            z-index: 2;
+        }
+        #bet
+        {
+            position: absolute;
+            top: 0px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        .sure_avaliable
+        {
+            position: absolute;
+            top: 0px;
+            left: 180px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        .sure_unavaliable
+        {
+            position: absolute;
+            top: 0px;
+            left: 180px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            opacity: 0.5;
+            z-index: 3;
+        }
+        #new
+        {
+            position: absolute;
+            top: 0px;
+            left: 300px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        #card
+        {
+            position:absolute;
+            top:300px;
+            width:1000px;
+            height:370px;
+            border:dashed;
+            background-color:burlywood;
+            z-index:2;
+        }
+        .big_avaliable
+        {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        .big_unavaliable
+        {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+            opacity:0.5;
+        }
+        .small_avaliable
+        {
+            position: absolute;
+            top: 5px;
+            left: 90px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        .small_unavaliable
+        {
+            position: absolute;
+            top: 5px;
+            left: 90px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            opacity:0.5;
+            z-index: 3;
+        }
+        .pick_avaliable
+        {
+            position: absolute;
+            top: 5px;
+            left: 175px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        .pick_unavaliable
+        {
+            position: absolute;
+            top: 5px;
+            left: 175px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            opacity:0.5;
+            z-index: 3;
+        }
+        #bigorsmall
+        {
+            position: absolute;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            top: 30px;
+            left: 5px;
+            z-index: 3;
+        }
+        #playertext
+        {
+            position: absolute;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            top: 80px;
+            left: 5px;
+            z-index: 3;
+        }
+        #computertext
+        {
+            position: absolute;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            top: 80px;
+            left: 225px;
+            z-index: 3;
+        }
+        #player
+        {
+            position:absolute;
+            height:200px;
+            top:150px;
+            left:5px;
+            z-index:3;
+        }
+        #computer
+        {
+            position: absolute;
+            height: 200px;
+            top: 150px;
+            left: 180px;
+            z-index: 3;
+        }
+        #result
+        {
+            position: absolute;
+            text-align: center;
+            top: 10px;
+            right: 30px;
+            width: 550px;
+            height: 100px;
+            border: dashed;
+            background-color: darkslateblue;
+            z-index: 3;
+        }
+        #resulttext
+        {
+            position: absolute;
+            top: -45px;
+            left: 10px;
+            font-size: 60px;
+            color: aliceblue;
+            z-index: 4;
+        }
+        .right
+        {
+            position: absolute;
+            z-index: 1;
+            top:10px;
+            left:98%;
+        }
+        .hello
+        {
+            position: absolute;
+            text-align: right;    
+            right: 200px;
+            font-size: 40px;    
+            font-weight: bold;
+            color: rgb(228, 253, 1);
+            z-index: 2;
+        }
+        .coin
+        {
+            position: absolute;
+            text-align: center;    
+            width: 200px;
+            height: 50px;
+            color: black;
+            font-size: 45px;    
+            background-color: orange;
+            z-index: 2;
+            right: 0px;
+            top: 0px;
+        }
+    </style>
+    <script type="text/javascript">
+        var suit = ["spades", "hearts", "diamonds", "clubs"];
+        var num = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+        var cn, pn, cs, ps;
+        var compare, c;
+        var win;
+        var bet;
+        var previous = 5000;
+        var coin;
+        function newgame()
+        {
+            name=localStorage.getItem("name");
+            document.getElementById("Hello").innerHTML="Hello,"+name+":";
+            coin=localStorage.getItem("coin");
+            document.getElementById("Coin").innerHTML="$"+coin;
+            document.getElementById("computer").setAttribute("src", "back.jpg");
+            document.getElementById("computer").setAttribute("alt", "back");
+            document.getElementById("resulttext").innerHTML = "您獲得：？？？ 元";
+            document.getElementById("bigorsmall").innerHTML = "這局比";
+            document.getElementById("sure").setAttribute("class", "sure_avaliable");
+            document.getElementById("big").setAttribute("class", "big_unavaliable");
+            document.getElementById("small").setAttribute("class", "small_unavaliable");
+            document.getElementById("pick").setAttribute("class", "pick_unavaliable");
+            document.getElementById("bet").disabled = false;
+            document.getElementById("sure").disabled = false;
+            document.getElementById("big").disabled = true;
+            document.getElementById("small").disabled = true;
+            document.getElementById("pick").disabled = true;
+            cn = Math.floor(Math.random() * 13);
+            cs = Math.floor(Math.random() * 4);
+            pn = Math.floor(Math.random() * 13);
+            ps = Math.floor(Math.random() * 4);
+            while (cn == pn && cs == ps)
+            {
+                pn = Math.floor(Math.random() * 13);
+                ps = Math.floor(Math.random() * 4);
+            }
+            document.getElementById("player").setAttribute("src", suit[ps] + "-" + num[pn] + ".jpg");
+            document.getElementById("player").setAttribute("alt", suit[ps] + "-" + num[pn]);
+            console.log("cn=" + cn + ", num[cn]=" + num[cn] + ", cs=" + cs + ", suit[cs]=" + suit[cs]);
+            console.log("pn=" + cn + ", num[pn]=" + num[pn] + ", ps=" + ps + ", suit[ps]=" + suit[ps]);
+        }
+        function okay()
+        {
+            bet = parseInt(document.getElementById("bet").value);
+            previous = bet;
+            console.log("bet=" + bet);
+            document.getElementById("bet").disabled = true;
+            document.getElementById("sure").disabled = true;
+            document.getElementById("big").disabled = false;
+            document.getElementById("small").disabled = false;
+            document.getElementById("sure").setAttribute("class", "sure_unavaliable");
+            document.getElementById("big").setAttribute("class", "big_avaliable");
+            document.getElementById("small").setAttribute("class", "small_avaliable");
+        }
+        function comparebig()
+        {
+            document.getElementById("big").disabled = true;
+            document.getElementById("small").disabled = false;
+            document.getElementById("pick").disabled = false;
+            document.getElementById("big").setAttribute("class", "big_unavaliable");
+            document.getElementById("small").setAttribute("class", "small_avaliable");
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            compare = 1;
+        }
+        function comparesmall()
+        {
+            document.getElementById("big").disabled = false;
+            document.getElementById("small").disabled = true;
+            document.getElementById("pick").disabled = false;
+            document.getElementById("big").setAttribute("class", "big_avaliable");
+            document.getElementById("small").setAttribute("class", "small_unavaliable");
+            document.getElementById("pick").setAttribute("class", "pick_avaliable");
+            compare = 0;
+        }
+        function detect()
+        {
+            if (compare == 1)
+            {
+                c = "大：";
+                if (pn > cn)
+                    bet *= 2;
+                else if (pn < cn)
+                    bet = -bet;
+                else if (pn == cn)
+                {
+                    if (ps < cs)
+                        bet *= 2;
+                    else if (ps > cs)
+                        bet = -bet;
+                }
+            }
+            else
+            {
+                c = "小：";
+                if (pn < cn)
+                    bet *= 2;
+                else if (pn > cn)
+                    bet = -bet;
+                else if (pn == cn)
+                {
+                    if (ps > cs)
+                        bet *= 2;
+                    else if (ps < cs)
+                        bet = -bet;
+                }
+            }
+            console.log(win);
+        }
+        function pick()
+        {
+            document.getElementById("big").disabled = true;
+            document.getElementById("small").disabled = true;
+            document.getElementById("pick").disabled = true;
+            document.getElementById("big").setAttribute("class", "big_unavaliable");
+            document.getElementById("small").setAttribute("class", "small_unavaliable");
+            document.getElementById("pick").setAttribute("class", "pick_unavaliable");
+            document.getElementById("computer").setAttribute("src", suit[cs] + "-" + num[cn] + ".jpg");
+            document.getElementById("computer").setAttribute("alt", suit[cs] + "-" + num[cn]);
+            detect();
+            document.getElementById("bigorsmall").innerHTML = "這局比" + "<span>" + c + "</span>";
+            document.getElementById("resulttext").innerHTML = "您獲得：" + bet + "元";
+            var coin1=parseInt(coin);
+            var bet1=parseInt(bet);
+            coin=coin1+bet1;
+            document.getElementById("Coin").innerHTML="$"+coin;
+            localStorage.setItem("coin",coin);        
+        }
+        window.addEventListener("load", newgame, false);
+    </script>
+</head>
+<body>
+    <p>
+        <img src="web-background.jpg" class="background_image" alt="background" />
+    </p>
+    <div id="rule">
+        <p>規則:</p>
+        <p>請先選擇比大或是比小，確定之後按下抽牌按鈕即會顯示電腦的牌與您的牌並判斷勝負</p>
+        <p><span>注意！！</span>2 < 3 < 4 < 5 < 6 < 7 < 8 < 9 < 10 < J < Q < K < A</p>
+        <p><span>注意！！</span>spades > hearts > diamonds > clubs</p>
+    </div>
+    <div id="buttons">
+        <input id="bet" type="number" min="1000" max="100000" step="1000" value="5000">
+        <input id="sure" class="sure_avaliable" type="button" value="確定" onclick="okay()">
+        <input id="new" type="button" value="New Game!" onclick="newgame()">
+    </div>
+    <div id="card">
+        <input id="big" type="button" value="比大" onclick="comparebig()">
+        <input id="small" type="button" value="比小" onclick="comparesmall()">
+        <input id="pick" type="button" value="翻牌" onclick="pick()">
+        <p id="bigorsmall"></p>
+        <p id="playertext">您的牌：</p>
+        <p id="computertext">電腦的牌：</p>
+        <img id="player" src="back.jpg" alt="back">
+        <img id="computer" src="back.jpg" alt="back" style="margin-left:50px;">
+        <div id="result">
+            <p id="resulttext"></p>
+        </div>
+    </div>
+    <div class="right">
+        <div class="hello" id="Hello"></div>
+        <div class="coin" id="Coin"></div>
+    </div>
+</body>
+</html>

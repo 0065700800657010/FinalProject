@@ -1,0 +1,604 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>21點</title>
+    <style type="text/css">
+        .background_image
+        {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width:100%;
+            height: 100%;
+            opacity: 0.5;
+            z-index: 1;
+        }
+        img
+        {
+            width: 130px;
+        }
+        .rule
+        {
+            position: absolute;
+            width: 1070px;
+            border: dotted;
+            background-color: aquamarine;
+            z-index: 2;
+        }
+        #buttons
+        {
+            position: absolute;
+            width: 1070px;
+            top:200px;
+            z-index: 2;
+        }
+        #bet
+        {
+            position: absolute;
+            top: 0px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        .sure_avaliable
+        {
+            position: absolute;
+            top: 0px;
+            left: 180px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 3;
+        }
+        .sure_unavaliable
+        {
+            position: absolute;
+            top: 0px;
+            left: 180px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            opacity:0.5;
+            z-index: 3;
+        }
+        .new_avaliable
+        {
+            position:absolute;
+            top:0px;
+            left:300px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index:3;
+        }
+        .new_unavaliable
+        {
+            position: absolute;
+            top: 0px;
+            left: 300px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            opacity:0.5;
+            z-index: 3;
+        }
+        .card
+        {
+            position: absolute;
+            top: 270px;
+            width: 1070px;
+            height: 600px;
+            border: dashed;
+            background-color: burlywood;
+            z-index: 2;
+        }
+        #result
+        {
+            position: absolute;
+            text-align:center;
+            top: 10px;
+            right: 30px;
+            width: 550px;
+            height: 100px;
+            border: dashed;
+            background-color:darkslateblue;
+            z-index: 3;
+        }
+        #resulttext
+        {
+            position:absolute;
+            top: -45px;
+            left:10px;
+            font-size:60px;
+            color:aliceblue;
+            z-index:4;
+        }
+        #playerpoint
+        {
+            text-align:center;
+            position: absolute;
+            top: 130px;
+            left:790px;
+            width: 250px;
+            height: 200px;
+            border:solid;
+            background-color: white;
+            z-index: 14;
+        }
+        #computerpoint
+        {
+            text-align: center;
+            position: absolute;
+            top: 390px;
+            left: 790px;
+            width: 250px;
+            height: 200px;
+            border: solid;
+            background-color: white;
+            z-index: 14;
+        }
+        span
+        {
+            font-size: 150%;
+            color: red;
+        }
+        .add_avaliable
+        {
+            position:absolute;
+            top:10px;
+            left:10px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index:14;
+        }
+        .add_unavaliable
+        {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            opacity:0.5;
+            z-index: 14;
+        }
+        .pass_avaliable
+        {
+            position: absolute;
+            top: 10px;
+            left: 130px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            z-index: 14;
+        }
+        .pass_unavaliable
+        {
+            position: absolute;
+            top: 10px;
+            left: 130px;
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            opacity:0.5;
+            z-index: 14;
+        }
+        .pointtext
+        {
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+        }
+        .pointnum
+        {
+            position: absolute;
+            top: -110px;
+            left: 55px;
+            z-index: 15;
+            font-size: 150px;
+            font-weight: 900;
+            color: darkred;
+        }
+        #playercard
+        {
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            position: absolute;
+            top: 55px;
+            left: 5px;
+            z-index: 3;
+        }
+        #computercard
+        {
+            font-size: 30px;
+            font-weight: 900;
+            color: darkred;
+            position: absolute;
+            top: 310px;
+            left: 5px;
+            z-index: 3;
+        }
+        .right
+        {
+            position: absolute;
+            z-index: 1;
+            margin-top:10px;
+            left:1500px ;
+        }
+        .hello
+        {
+            position: absolute;
+            text-align: right;    
+            right: 200px;
+            font-size: 40px;    
+            font-weight: bold;
+            color: rgb(228, 253, 1);
+            z-index: 2;
+        }
+        .coin
+        {
+            position: absolute;
+            text-align: center;    
+            width: 200px;
+            height: 50px;
+            color: black;
+            font-size: 45px;    
+            background-color: orange;
+            z-index: 2;
+            right: 0px;
+            top: 0px;
+        }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script>
+        var suit = ["spades", "hearts", "diamonds", "clubs"];
+        var num = ["A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"];
+        var deck = [];
+        var player = [];
+        var computer = [];
+        var com_num = [];
+        var com_suit = [];
+        var playerpoint = 0;
+        var computerpoint = 0;
+        var pace = 0;
+        var cace = 0;
+        var minus = 0;
+        var first = 0;
+        var tens = 0;
+        var current1 = 2;
+        var current2 = 2;
+        var first = 0;
+        var j = 0;
+        var previous = 5000;
+        var bet;
+        var coin;
+        function setcomputer(last)
+        {
+            var temp = 0;
+            var ace = 0;
+            for (var i = 0; i < last; i++)
+            {
+                temp = temp + computer[i];
+                if (computer[i] == 1)
+                    ace++;
+            }
+            while (ace > 0 && temp + 10 <= 21)
+            {
+                temp += 10;
+                ace--;
+            }
+            computerpoint = temp;
+            //document.getElementById("cp").innerHTML = computerpoint;
+        }
+        function setplayer(last)
+        {
+            var temp = 0;
+            var ace = 0;
+            for (var i = 0; i < last; i++)
+            {
+                temp = temp + player[i];
+                if (player[i] == 1)
+                    ace++;
+            }
+            while (ace > 0 && temp + 10 <= 21)
+            {
+                temp += 10;
+                ace--;
+            }
+            playerpoint = temp;
+            document.getElementById("pp").innerHTML = playerpoint;
+        }
+        function newgame()
+        {
+            name=localStorage.getItem("name");
+            document.getElementById("Hello").innerHTML="Hello,"+name+":";
+            coin=localStorage.getItem("coin");
+            document.getElementById("Coin").innerHTML="$"+coin;
+            //console.clear();
+            document.getElementById("new").disabled = false;
+            document.getElementById("bet").disabled = false;
+            document.getElementById("sure").disabled = false;
+            document.getElementById("add").disabled = true;
+            document.getElementById("pass").disabled = true;
+            document.getElementById("new").setAttribute("class", "new_avaliable");
+            document.getElementById("sure").setAttribute("class", "sure_avaliable");
+            document.getElementById("add").setAttribute("class", "add_unavaliable");
+            document.getElementById("pass").setAttribute("class", "pass_unavaliable");
+            document.getElementById("resulttext").innerHTML = "您獲得：？？？ 元";
+            current1 = 2;
+            current2 = 2;
+            pace = 0;
+            cace = 0;
+            minus = 0;
+            first = 0;
+            for (var i = 0; i < 52; i++)
+                deck[i] = 0;
+            //console.log(deck);
+            for (var i = 3; i < 12; i++)
+            {
+                $("#p" + i).hide();
+                $("#c" + i).hide();
+            }
+            var count = 0;
+            for (i = 1; i <= 11; i++)
+            {
+                var ps = Math.floor(Math.random() * 4);
+                var pn = Math.floor(Math.random() * 13);
+                count++;
+                console.log(count + ": playercard" + i + " is " + suit[ps] + "-" + num[pn]);
+                while (deck[ps*13+pn] != 0)
+                {
+                    ps = Math.floor(Math.random() * 4);
+                    pn = Math.floor(Math.random() * 13);
+                    count++;
+                    console.log(count + ": playercard" + i + " is " + suit[ps] + "-" + num[pn]);
+                }           
+                deck[ps * 13 + pn]++;
+                if(pn<9)
+                    player[i - 1] = pn+1;
+                else
+                    player[i - 1] = 10;
+                document.getElementById("p" + i).setAttribute("src", suit[ps] + "-" + num[pn] + ".jpg");
+                document.getElementById("p" + i).setAttribute("alt", suit[ps] + "-" + num[pn]);
+                var cs = Math.floor(Math.random() * 4);
+                var cn = Math.floor(Math.random() * 13);
+                count++;
+                console.log(count + ": computercard" + i + " is " + suit[cs] + "-" + num[cn]);
+                while (deck[cs * 13 + cn] != 0)
+                {
+                    cs = Math.floor(Math.random() * 4);
+                    cn = Math.floor(Math.random() * 13);
+                    count++;
+                    console.log(count + ": computercard" + i + " is " + suit[cs] + "-" + num[cn]);
+                }
+                com_num[i - 1] = cn;
+                com_suit[i - 1] = cs;
+                deck[cs * 13 + cn]++;
+                if (cn < 9)
+                    computer[i - 1] = cn+1;
+                else
+                    computer[i - 1] = 10;
+                if (i == 1)
+                {
+                    document.getElementById("c" + i).setAttribute("src", suit[cs] + "-" + num[cn] + ".jpg");
+                    document.getElementById("c" + i).setAttribute("alt", suit[cs] + "-" + num[cn]);
+                }
+                else
+                {
+                    document.getElementById("c" + i).setAttribute("src", "back.jpg");
+                    document.getElementById("c" + i).setAttribute("alt", "back");
+                }
+            }
+            document.getElementById("cp").innerHTML = "";
+            setplayer(current1);
+            setcomputer(current2);
+            console.log(player);
+            console.log(computer);
+        }
+        function okay()
+        {
+            bet = parseInt(document.getElementById("bet").value);
+            previous = bet;
+            console.log("bet=" + bet);
+            document.getElementById("bet").disabled = true;
+            document.getElementById("sure").disabled = true;
+            document.getElementById("add").disabled = false;
+            document.getElementById("pass").disabled = false;
+            document.getElementById("sure").setAttribute("class", "sure_unavaliable");
+            document.getElementById("add").setAttribute("class", "add_avaliable");
+            document.getElementById("pass").setAttribute("class", "pass_avaliable");
+        }
+        function showresult()
+        {
+            document.getElementById("resulttext").innerHTML = "您獲得:" + bet + "元";
+            document.getElementById("new").disabled = false;
+            document.getElementById("new").setAttribute("class", "new_avaliable");
+            var coin1=parseInt(coin);
+            var bet1=parseInt(bet);
+            coin=coin1+bet1;
+            document.getElementById("Coin").innerHTML="$"+coin;
+            localStorage.setItem("coin",coin);
+        }
+        function addcard()
+        {
+            current1++;
+            $("#p" + current1).show();
+            setplayer(current1);
+            if (playerpoint > 21)
+            {
+                document.getElementById("add").disabled = true;
+                document.getElementById("pass").disabled = true;
+                document.getElementById("new").disabled = true;
+                document.getElementById("new").setAttribute("class", "new_unavaliable");
+                document.getElementById("add").setAttribute("class", "add_unavaliable");
+                document.getElementById("pass").setAttribute("class", "pass_unavaliable");
+                setcard();
+                bet = -bet;
+                setTimeout("showresult()", 500);
+            }  
+        }
+        function setcard()
+        {
+            for (var i = 1; i <= current2; i++)
+            {
+                var toset = i + 1;
+                document.getElementById("c" + toset).setAttribute("src", suit[com_suit[i]] + "-" + num[com_num[i]] + ".jpg");
+                document.getElementById("c" + toset).setAttribute("alt", suit[com_suit[i]] + "-" + num[com_num[i]]);
+            }
+            document.getElementById("cp").innerHTML = computerpoint;
+        }
+        function addcomputer()
+        {
+            if (computerpoint > 21)
+            {
+                setcard();
+                bet *= 2;
+                setTimeout("showresult()", 1000);
+                clearInterval(j);
+                j = 0;
+                return;
+            }
+            else if(computerpoint == 21)
+            {
+                setcard();
+                if (playerpoint == 21)
+                {
+                    bet /= 2;
+                    setTimeout("showresult()", 1000);
+                }  
+                else
+                {
+                    bet = -bet;
+                    setTimeout("showresult()", 1000);
+                }   
+                clearInterval(j);
+                j = 0;
+                return;
+            }
+            else
+            {
+                if (computerpoint + computer[current2] > 21)
+                {
+                    setcard();
+                    if (playerpoint > computerpoint)
+                    {
+                        bet *= 2;
+                        setTimeout("showresult()", 1000);
+                    }
+                    else if (playerpoint == computerpoint)
+                    {
+                        setTimeout("showresult()", 1000);
+                    }
+                    else
+                    {
+                        bet = -bet;
+                        setTimeout("showresult()", 1000);
+                    }
+                    clearInterval(j);
+                    j = 0;
+                    return;
+                }
+                else
+                {
+                    current2++;
+                    setcomputer(current2);
+                    $("#c" + current2).show();           
+                }                 
+            }
+        }
+        function end()
+        {
+            document.getElementById("add").disabled = true;
+            document.getElementById("pass").disabled = true;
+            document.getElementById("new").disabled = true;
+            document.getElementById("new").setAttribute("class", "new_unavaliable");
+            document.getElementById("add").setAttribute("class", "add_unavaliable");
+            document.getElementById("pass").setAttribute("class", "pass_unavaliable");
+            while (!j)
+                j = window.setInterval("addcomputer()", 500);
+            
+        }
+        window.addEventListener("load", newgame, false);
+    </script>
+</head>
+<body>
+    <div class="rule">
+        <p>規則:</p>
+        <p>
+            擁有最高點數的玩家獲勝，其點數必須等於或低於21點；超過21點的玩家稱為爆牌。<br>
+            2點至10點的牌以牌面的點數計算，<span>J、Q、K 每張為10點</span>。A可記為1點或為11點，而2-9則按牌面點數算，若玩家會因A而爆牌則A可算為1 點。<br>
+            每位玩家的目的是要取得<span>最接近21</span>點數的牌來擊敗莊家，但同時要避免爆牌。要注意的是，若玩家爆牌在先即為輸，就算隨後莊家爆牌也是如此。<br />
+            若點數比電腦大則獲勝，若與電腦依樣則平手，若點數比電腦小則失敗。
+        </p>
+    </div>
+    <p>
+        <img src="web-background.jpg" class="background_image" alt="background">
+    </p>
+    <div id="buttons">
+        <input id="bet" type="number" min="1000" max="100000" step="1000" value="5000">
+        <input id="sure" class="sure_avaliable" type="button" value="確定" onclick="okay()">
+        <input id="new" type="button" value="New Game!" onclick="newgame()">
+    </div>
+    
+    <div class="card">
+        <input id="add" class="#add_avaliable" type="button" value="加牌!!" onclick="addcard()">
+        <input id="pass" class="pass_avaliable" type="button" value="Pass!!" onclick="end()">
+        <p id="playercard">
+            您的牌：</p>
+        <p>
+            <img id="p1" src="back.jpg" alt="back" style="position:absolute;top:130px;left:5px;z-index:3;">
+            <img id="p2" src="back.jpg" alt="back" style="position:absolute;top:130px;left:65px;z-index:4;">
+            <img id="p3" src="back.jpg" alt="back" style="position:absolute;top:130px;left:125px;z-index:5;">
+            <img id="p4" src="back.jpg" alt="back" style="position:absolute;top:130px;left:185px;z-index:6;">
+            <img id="p5" src="back.jpg" alt="back" style="position:absolute;top:130px;left:245px;z-index:7;">
+            <img id="p6" src="back.jpg" alt="back" style="position:absolute;top:130px;left:305px;z-index:8;">
+            <img id="p7" src="back.jpg" alt="back" style="position:absolute;top:130px;left:365px;z-index:9;">
+            <img id="p8" src="back.jpg" alt="back" style="position:absolute;top:130px;left:425px;z-index:10;">
+            <img id="p9" src="back.jpg" alt="back" style="position:absolute;top:130px;left:485px;z-index:11;">
+            <img id="p10" src="back.jpg" alt="back" style="position:absolute;top:130px;left:545px;z-index:12;">
+            <img id="p11" src="back.jpg" alt="back" style="position:absolute;top:130px;left:605px;z-index:13;">
+        </p>
+        <p id="computercard">電腦的牌：</p>
+        <p>
+            <img id="c1" src="back.jpg" alt="back" style="position:absolute;top:390px;left:5px;z-index:3;">
+            <img id="c2" src="back.jpg" alt="back" style="position:absolute;top:390px;left:65px;z-index:4;">
+            <img id="c3" src="back.jpg" alt="back" style="position:absolute;top:390px;left:125px;z-index:5;">
+            <img id="c4" src="back.jpg" alt="back" style="position:absolute;top:390px;left:185px;z-index:6;">
+            <img id="c5" src="back.jpg" alt="back" style="position:absolute;top:390px;left:245px;z-index:7;">
+            <img id="c6" src="back.jpg" alt="back" style="position:absolute;top:390px;left:305px;z-index:8;">
+            <img id="c7" src="back.jpg" alt="back" style="position:absolute;top:390px;left:365px;z-index:9;">
+            <img id="c8" src="back.jpg" alt="back" style="position:absolute;top:390px;left:425px;z-index:10;">
+            <img id="c9" src="back.jpg" alt="back" style="position:absolute;top:390px;left:485px;z-index:11;">
+            <img id="c10" src="back.jpg" alt="back" style="position:absolute;top:390px;left:545px;z-index:12;">
+            <img id="c11" src="back.jpg" alt="back" style="position:absolute;top:390px;left:605px;z-index:13;">
+        </p>
+        <div id="playerpoint">
+            <p class="pointtext">
+                Your Points:
+            </p>
+            <p id="pp" class="pointnum">
+            </p>
+        </div>
+        <div id="computerpoint">
+            <p class="pointtext">
+                computer's Points:
+            </p>
+            <p id="cp" class="pointnum">
+            </p>
+        </div>
+        <div id="result">
+            <p id="resulttext"></p>
+        </div>
+    </div>
+
+    <div class="right">
+        <div class="hello" id="Hello"></div>
+        <div class="coin" id="Coin"></div>
+    </div>
+</body>
+</html >

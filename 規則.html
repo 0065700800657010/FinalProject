@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>規則</title>
+    <link rel="stylesheet" type="text/css" href="規則.css">
+    <script>
+        var coin;
+        function start()
+        {
+            name=localStorage.getItem("name");
+            document.getElementById("Hello").innerHTML="Hello,"+name+":";
+            coin=localStorage.getItem("coin");
+            document.getElementById("Coin").innerHTML="$"+coin;
+            document.getElementById("End").addEventListener("click",endgame,false);
+        }
+        function endgame()
+        {
+            localStorage.clear();
+            window.alert("Thanks!");
+            window.close();
+        }
+        window.addEventListener("load",start,false);
+    </script>
+</head>
+<body> 
+        <img src="web-background.jpg" class="background_image" alt="Background image">       
+ 
+    <div class="up">
+        <img class="casinotable" src="casinotable1.png" alt="casinotable">
+        <img class="logo" src="casinocoin-golden.png" alt="LOGO">
+        <p class="title">規則</p>
+    </div>
+    <a href="00657008-00657010-Homepage.html"><img class="back" src="返回鍵.png"><p class="backword">賭場大廳</p></a>
+   <div class="right">              
+        <div class="hello" id="Hello"></div>        
+        <div class="coin"  id="Coin"></div>
+        <input type="button" value="End Game!" id="End" class="end">
+   </div>
+
+    <div class="down">
+        <p class="rule">1.遊戲開始前請輸入名字<br>
+                        2.遊戲初始金額為1000000<br>
+                        3.各遊戲規則將顯示在遊戲畫面中<br>
+                        4.為避免不小心關閉網頁導致金錢損失，或是需要更改名字，須按「End Game」按鈕才會重新開始並關閉網頁</p>
+    </div>
+<!-- -->    
+</body>
+</html>

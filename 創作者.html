@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>創作者</title>
+    <link rel="stylesheet" type="text/css" href="創作者.css">
+    <script>
+        var coin;
+        function start()
+        {
+            name=localStorage.getItem("name");
+            document.getElementById("Hello").innerHTML="Hello,"+name+":";
+            coin=localStorage.getItem("coin");
+            document.getElementById("Coin").innerHTML="$"+coin;
+            document.getElementById("End").addEventListener("click",endgame,false);
+
+        }
+        function endgame()
+        {
+            localStorage.clear();
+            window.alert("Thanks!");
+            window.close();
+        }
+        window.addEventListener("load",start,false);
+    </script>
+</head>
+<body>
+    <img src="web-background.jpg" class="background_image" alt="Background image">       
+ 
+    <div class="up">
+        <img class="casinotable" src="casinotable1.png" alt="casinotable">
+        <img class="logo" src="casinocoin-golden.png" alt="LOGO">
+        <p class="title">創作者</p>
+    </div>
+    <a href="00657008-00657010-Homepage.html"><img class="back" src="返回鍵.png"><p class="backword">賭場大廳</p></a>
+   <div class="right">              
+        <div class="hello" id="Hello"></div>        
+        <div class="coin"  id="Coin"></div>
+        <input type="button" value="End Game!" id="End" class="end">
+   </div>
+     
+   <div id="grotion">
+       <img id="grotion_photo" src="Grotion.png" alt="Grotion">
+       <p id="grotion_name">姓名:顧賀翔</p>
+       <p id="grotion_grade">系級:資工2A</p>
+       <p id="grotion_id">學號:00657010</p>
+       <p id="grotion_feedback">
+            專題心得:<br>網頁程式設計並非我想像中的如此輕鬆，很多複雜的功能在程式裡面卻沒有那麼複雜，相對的，很多看斯輕鬆的功能、排版、顯示、動畫等等也並不是扁面上看似的那麼容易。網頁程式設計是相當有趣的一門課，雖然並不是很擅長，但很樂意去學習!!!
+        </p>
+   </div>
+
+   <div id="chase">
+    <img id="chase_photo" src="chase.png" alt="Chase">
+    <p id="chase_name">姓名:周柏維</p>
+    <p id="chase_grade">系級:資工2A</p>
+    <p id="chase_id">學號:00657008</p>
+    <p id="chase_feedback">
+         專題心得:<br>網頁設計這門課我覺得相當的好玩，尤其是當自己寫出一個自己的網頁會非常有成就感。雖然現在學到的技術還只是基礎中的基礎，程式也都類似C語言，若有一定基礎就可以寫出一些簡單的網頁，最花時間的還是調整網頁介面。為了能寫出更高階的網頁，未來還有許多更為複雜的功能需要學習。
+     </p>
+</div>
+   
+</body>
+</html>

@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>打地鼠</title>
+        <style>
+            .form,td,tr
+            {
+                border: 3px solid black;
+                border-collapse: collapse;
+                
+            }
+            .form
+            {
+                position:absolute;
+                top: 200px;
+                left: 520px;
+                width: 500px;
+                height: 500px;
+                text-align: center;
+                table-layout : fixed;
+                background-color:wheat;
+            }
+            td
+            {
+                width:70px;
+                height: 80px;
+            }
+            .title
+            {                
+                position: absolute;
+                font-size: 50px;
+                font-weight:bold;
+                top: 0px;
+                left: 700px;
+            }
+            .money1
+            {
+                position:absolute;
+                top: 200px;
+                left: 1080px;                
+                font-size: 40px;
+                font-weight:bold;
+                display: inline;
+            }            
+            #money
+            {
+                position: relative;
+                font-size: 40px;
+                font-weight:bold;
+                top: 0px;
+                width: 130px;
+                height: 30px;
+            }
+            #gamespeed
+            {
+                position: relative;
+                font-size: 35px;
+                font-weight:bold;
+                top: 0px;
+                width: 100px;
+                height: 40px;
+            }
+            #gametime
+            {
+                position: relative;
+                font-size: 40px;
+                font-weight:bold;
+                top: 0px;
+                width: 60px;
+                height: 30px;
+            }
+            img
+            {
+                width: 70px;
+                height: 70px;
+            }
+            .start            
+            {
+                position:absolute;
+                top:200px;
+                font-size:40px; 
+                font-weight:bold;
+            }
+            .show
+            {
+                position:absolute;
+                top: 580px;
+                left: 1100px;                
+                font-size: 50px;   
+                font-weight:bold;
+                color:white;
+                display: inline-block;             
+            }
+            #numtime
+            {
+                position: relative;
+                display: inline;
+            }
+            #earn
+            {
+                position: relative;
+                display: inline;
+            }
+            #new
+            {
+                position: absolute;
+                top:600px;
+                left: 360px;
+                font-size:30px;
+                font-weight:bold;
+            }            
+            .time
+            {
+                position: absolute;
+                top:330px;
+                left:155px;
+                border:2px solid black;
+                width:60px;
+                height: 60px;
+                color:darkblue;
+                font-size:50px;
+                font-weight:bold;
+                text-align:center;
+            }
+            .timeword1
+            {
+                position: absolute;
+                top:150px;
+                left:160px;
+                font-size:50px;
+                font-weight:bold;
+            }
+             .timeword2
+            {
+                position: absolute;
+                top:350px;
+                left:160px;
+                font-size:50px;
+                font-weight:bold;
+            }
+            .countdown
+            {
+                position: absolute;
+                top:0px;
+                left:250px;
+            }
+            .background_image
+            {
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                z-index:0;
+                width:100%;
+                height: 100%;
+                opacity:0.5;
+            }
+            .up
+            {
+                position: absolute;
+                z-index: 0;
+                width:768px;
+                top:0px;
+                left:538px ;
+            }
+            p.title
+            {
+                position: absolute;
+                text-align:center;
+                display: inline-block;
+                left: 180px;
+                top: 5px;
+                font-weight: bold;
+                font-size: 60px;    
+                color: black;    
+                z-index:3 ;
+            }
+            .casinotable
+            {
+                
+                position: absolute;
+                left: 0px;
+                top: 0px;
+                width: 500px;
+                height: 200px;
+                z-index:1 ;
+            }
+            .logo
+            {
+                position: absolute;
+                left:  60px;
+                top: 47px;
+                width: 100px;
+                height: 100px;
+                z-index:2 ;
+            }
+            .right
+            {
+                position: absolute;
+                z-index: 1;
+                margin-top:10px;
+                left:1530px ;
+            }
+            .hello
+            {
+                position: absolute;
+                text-align: right;    
+                right: 200px;
+                font-size: 40px;    
+                font-weight: bold;
+                color: yellow;
+                z-index: 2;
+            }
+            .coin
+            {
+                position: absolute;
+                text-align: center;    
+                width: 200px;
+                height: 50px;
+                color: black;
+                font-size: 45px;    
+                background-color: orange;
+                z-index: 2;
+                right: 0px;
+                top: 0px;
+            }
+            .rule
+            {
+                position: absolute; 
+                width: 350px;
+                height: 400px;
+                background-color: rgb(0, 217, 255);
+                font-size: 25px;
+                color: black;
+                z-index: 2;
+                left: 10px;
+                top: 10px;
+                border: dotted;
+            }
+        </style>
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <script>            
+            var a,b;
+            var the;      
+            var benefit=0;
+            var num=0;     
+            var Tt=0;
+            var timer=0
+            var earn;
+            var coin;
+            function setup()
+            {       
+                name=localStorage.getItem("name");
+                document.getElementById("Hello").innerHTML="Hello,"+name+":";
+                coin=localStorage.getItem("coin");
+                document.getElementById("Coin").innerHTML="$"+coin;
+                document.getElementById("start").addEventListener("click",zero2,false); 
+                for(var j=1 ;j<=5 ;j++)
+                {
+                    for(var i=1;i<=5;i++)
+                    {
+                        $("#"+j+"-"+i).hide();
+                    }
+                }                                                
+                document.getElementById("start").disabled = false;
+                document.getElementById("money").disabled = false;
+                document.getElementById("gamespeed").disabled = false;
+                document.getElementById("gametime").disabled = false;
+                
+                var numtime = document.getElementById("numtime") 
+                    numtime.innerHTML="已點擊 0 次";
+                    
+                var earn = document.getElementById("earn")                 
+                    earn.innerHTML="已獲得 0 coin"
+                clearInterval(timer);
+                benefit=0;
+                num=0;     
+                Tt=0;
+                timer=0;
+            }
+            function start()
+            {          
+                
+                var speed;
+                var gamespeed=document.getElementById("gamespeed");
+                if(gamespeed.value=="easy")
+                    speed=400;
+                else if(gamespeed.value=="mid")
+                    speed=300;
+                else if(gamespeed.value=="fast")
+                    speed=200;
+                else if(gamespeed.value=="veryfast")
+                    speed=150;
+                a = Math.floor(Math.random()*5)+1;
+                b = Math.floor(Math.random()*5)+1;
+                the = document.getElementById(a+"-"+b);
+                the.value=1;     
+                $("#"+a+"-"+b).show(speed);
+                $("#"+a+"-"+b).hide(speed,zero);                                   
+            }
+            function zero()
+            {
+                the = document.getElementById(a+"-"+b);
+                the.value=0;
+                if(Tt!=2)
+                    start();
+            }
+            function zero2()
+            {
+                if(Tt==0){
+                   timer=setInterval("countDown()",1000); 
+                }                
+                document.getElementById("start").disabled = true;
+                document.getElementById("new").disabled = true;
+                document.getElementById("money").disabled = true;
+                document.getElementById("gamespeed").disabled = true;
+                var gametime=document.getElementById("gametime");
+                gametime.disabled = true;
+                var time = document.getElementById("time");
+                    time.innerHTML=gametime.value;
+                for(var i=1;i<=5;i++)
+                {
+                    for(var j=1;j<=5;j++)
+                    {
+                        var target = document.getElementById(i+"-"+j);
+                        target.value=0;
+                    }
+                }      
+                start();
+            }
+            function mouseclick(x,y)
+            {                     
+                var target = document.getElementById(x+"-"+y); 
+                var multiple=1;
+                if(target.value>=0 && Tt!=2) 
+                {
+                    num++;
+                    var numtime = document.getElementById("numtime")
+                    var everyclick = document.getElementById("money") 
+                    numtime.innerHTML="已點擊 "+num+" 次";
+                    var speed=document.getElementById("gamespeed") 
+                    if(speed.value=="easy")
+                        multiple=1.5;
+                    else if(speed.value=="mid")
+                        multiple=2;
+                    else if(speed.value=="fast")
+                        multiple=3;                        
+                    else if(speed.value=="veryfast")
+                        multiple=4;
+                    if(target.value==1)
+                    {
+                        bingoaudio.play();
+                        benefit+=1*everyclick.value*multiple;
+                    }
+                    var earn = document.getElementById("earn") 
+                    earn.innerHTML="已獲得 "+benefit+" coin"
+                }                
+            }
+            function countDown()
+            {				
+                var time = document.getElementById("time");
+                var everyclick = document.getElementById("money") 
+				if(time.innerHTML == 0){
+                    
+                    clearInterval(timer);
+					Tt=2;
+                    document.getElementById("new").disabled = false;
+                    var cost=num*everyclick.value;
+                    earn=benefit-cost;
+                    window.alert("這回合獲得"+earn+"coin");
+                    var coin1=parseInt(coin);
+                    var earn1=parseInt(earn);
+                    coin=coin1+earn1;
+                    console.log(coin1);
+                    console.log(earn1)
+                    document.getElementById("Coin").innerHTML="$"+coin;
+                    localStorage.setItem("coin",coin);
+				}
+                else
+                {
+                    time.innerHTML = time.innerHTML-1;
+                }               
+			}
+        </script>
+    </head>
+    <body onload="setup()">
+    <img src="web-background.jpg" class="background_image" alt="Background image" id="background_image">
+        <audio id="bingoaudio" preload = "auto">
+            <source src="correct1.mp3" type="audio/mp3">
+            <source src="correct1.ogg" type="audio/ogg">
+        </audio>
+        
+        <div class="up">
+            <img class="casinotable" src="casinotable1.png" alt="casinotable">
+            <img class="logo" src="casinocoin-golden.png" alt="LOGO">
+            <p class="title">打地鼠</p>
+        </div>
+
+        <div class="right">              
+            <div class="hello" id="Hello"></div>        
+            <div class="coin"  id="Coin"></div>
+        </div>
+        
+        <div class="money1">
+            每一擊需花費<input type="number" min="1000" max="10000" step="1000" value="1000" id="money">coin<br>
+            遊戲時間<input type="number"    min="30" max="60" step="15" value="30" id="gametime">秒<br>
+            遊戲速度<select name="gamespeed" id="gamespeed">
+                    　<option value="easy">普通</option>
+                    　<option value="mid">中</option>
+                    　<option value="fast">快</option>
+                    　<option value="veryfast">超快</option>
+                    </select>  
+            <input type="button" value="遊戲開始" id="start" class="start">
+        </div>
+        <div class="show">
+            <p id="numtime">已點擊 0 次</p><br>
+            <p id="earn">已獲得 0 coin</p>
+        </div>
+
+        <div class="countdown">
+            <p class="timeword1">剩餘</p> <table class="time" id="time"></table><p class="timeword2">秒</p> 
+        </div>   
+
+        <div class="rule">
+            <p>遊戲注意事項:<br>
+                (1)遊戲開始前請先選擇每點擊一次要花的錢，若打中地鼠將獲得兩倍之金錢<br>
+                (2)請調整遊戲時間<br>
+                (3)請調整遊戲速度:<br>
+                普通:1.5倍金錢<br>
+                中:2倍金錢<br>
+                快:3倍金錢<br>
+                超快:4倍金錢
+            </p>
+        </div>
+        <table class="form">
+            <tr>
+                <td onclick="mouseclick( 1 , 1 )"><img src="mouse.png" id="1-1"></td>
+                <td onclick="mouseclick( 1 , 2 )"><img src="mouse.png" id="1-2"></td>
+                <td onclick="mouseclick( 1 , 3 )"><img src="mouse.png" id="1-3"></td>
+                <td onclick="mouseclick( 1 , 4 )"><img src="mouse.png" id="1-4"></td>
+                <td onclick="mouseclick( 1 , 5 )"><img src="mouse.png" id="1-5"></td>
+            </tr>
+            <tr>
+                <td onclick="mouseclick( 2 , 1 )"><img src="mouse.png" id="2-1"></td>
+                <td onclick="mouseclick( 2 , 2 )"><img src="mouse.png" id="2-2"></td>
+                <td onclick="mouseclick( 2 , 3 )"><img src="mouse.png" id="2-3"></td>
+                <td onclick="mouseclick( 2 , 4 )"><img src="mouse.png" id="2-4"></td>
+                <td onclick="mouseclick( 2 , 5 )"><img src="mouse.png" id="2-5"></td>
+            </tr>
+            <tr>
+                <td onclick="mouseclick( 3 , 1 )"><img src="mouse.png" id="3-1"></td>
+                <td onclick="mouseclick( 3 , 2 )"><img src="mouse.png" id="3-2"></td>
+                <td onclick="mouseclick( 3 , 3 )"><img src="mouse.png" id="3-3"></td>
+                <td onclick="mouseclick( 3 , 4 )"><img src="mouse.png" id="3-4"></td>
+                <td onclick="mouseclick( 3 , 5 )"><img src="mouse.png" id="3-5"></td>
+            </tr>
+            <tr>
+                <td onclick="mouseclick( 4 , 1 )"><img src="mouse.png" id="4-1"></td>
+                <td onclick="mouseclick( 4 , 2 )"><img src="mouse.png" id="4-2"></td>
+                <td onclick="mouseclick( 4 , 3 )"><img src="mouse.png" id="4-3"></td>
+                <td onclick="mouseclick( 4 , 4 )"><img src="mouse.png" id="4-4"></td>
+                <td onclick="mouseclick( 4 , 5 )"><img src="mouse.png" id="4-5"></td>
+            </tr>
+            <tr>
+                <td onclick="mouseclick( 5 , 1 )"><img src="mouse.png" id="5-1"></td>
+                <td onclick="mouseclick( 5 , 2 )"><img src="mouse.png" id="5-2"></td>
+                <td onclick="mouseclick( 5 , 3 )"><img src="mouse.png" id="5-3"></td>
+                <td onclick="mouseclick( 5 , 4 )"><img src="mouse.png" id="5-4"></td>
+                <td onclick="mouseclick( 5 , 5 )"><img src="mouse.png" id="5-5"></td>
+            </tr>                                   
+        </table>
+        
+            <p>
+                <input id="new" type="button" value="新遊戲" onclick="setup()">
+            </p>
+        
+    </body>
+</html>

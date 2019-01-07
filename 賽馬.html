@@ -1,0 +1,495 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>賽馬</title>
+    <style type="text/css">
+        .background_image
+        {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width:100%;
+            height: 100%;
+            opacity: 0.5;
+            z-index: 1;
+        }
+        .rule
+        {
+            position: absolute;
+            width: 1110px;
+            border: dotted;
+            top: 5px;
+            background-color: aquamarine;
+            z-index: 2;
+        }
+        #runway
+        {
+            position: absolute;
+            top: 270px;
+            z-index: 2;
+        }
+        .runway_image
+        {
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            width: 1400px;
+            height: 654.5px;
+            z-index: 3;
+        }
+        #horese
+        {
+            position: absolute;
+            top: 115px;
+            width: 1400px;
+            height: 60px;
+            border: dashed;
+            background-color: coral;
+            z-index: 2;
+        }
+        #bet
+        {
+            position: absolute;
+            color: firebrick;
+            font-size: 25px;
+            top: 10px;
+            left: 5px;
+            z-index: 3;
+        }
+        .sure_avaliable
+        {
+            position: absolute;
+            color: firebrick;
+            font-size: 25px;
+            top: 10px;
+            left: 160px;
+            z-index: 3;
+        }
+        .sure_unavaliable
+        {
+            position: absolute;
+            color: firebrick;
+            font-size: 25px;
+            top: 10px;
+            left: 160px;
+            opacity:0.5;
+            z-index: 3;
+        }
+        #result
+        {
+            position: absolute;
+            text-align: center;
+            top: 190px;
+            width: 450px;
+            height: 66px;
+            border: dashed;
+            background-color: darkslateblue;
+            z-index: 2;
+        }
+        #resulttext
+        {
+            position: absolute;
+            top: -47px;
+            left: 10px;
+            font-size: 50px;
+            color: aliceblue;
+            z-index: 4;
+        }
+        span
+        {
+            font-size: 150%;
+            color: red;
+        }
+        .right
+        {
+            position: absolute;
+            z-index: 3;
+            margin-top:10px;
+            left:1100px ;
+        }
+        .hello
+        {
+            position: absolute;
+            text-align: right;    
+            right: 200px;
+            font-size: 40px;    
+            font-weight: bold;
+            color: blue;
+            z-index: 2;
+        }
+        .coin
+        {
+            position: absolute;
+            text-align: center;    
+            width: 200px;
+            height: 50px;
+            color: black;
+            font-size: 45px;    
+            background-color: orange;
+            z-index: 2;
+            right: 0px;
+            top: 0px;
+        }
+    </style>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script>
+        var bet;
+        var butpos_left = ["250", "355", "460", "565", "670", "775", "880", "985"];
+        var horsepos_left = [0, 0, 0, 0, 0, 0, 0, 0];
+        var horsepos_top = [0, 82, 164, 246, 328, 410, 492, 575];
+        var win = [];
+        var move = [0, 0, 1, 1, 1, 1, 1, 2, 2, 3, 3, 4, 5, 7, 10, -1, -1, -1, -2, -2, -2, -2, -5, -5, -8];
+        var j1;
+        var j2;
+        var ended;
+        var count;
+        var winner;
+        var money;
+        var coin;
+        function newgame()
+        {
+            name=localStorage.getItem("name");
+            document.getElementById("Hello").innerHTML = "Hello," + name + ":";
+            coin=localStorage.getItem("coin");
+            document.getElementById("Coin").innerHTML="$"+coin;
+            document.getElementById("bet").disabled = false;
+            document.getElementById("sure").disabled = false;
+            document.getElementById("sure").setAttribute("class", "sure_avaliable");
+            bet = 0;
+            for(var i = 1; i <= 8; i++)
+            {
+                $("#runway" + i).hide();
+                $("#win" + i).hide();
+            }
+            for (var i = 1; i <= 8; i++)
+            {
+                document.getElementById("but" + i).disabled = true;
+                document.getElementById("but" + i).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[i - 1] + "px;z-index:3;");
+                document.getElementById("horse" + i).setAttribute("style", "position:absolute;top:" + horsepos_top[i] + "px;left:0px;width:70px;height:80px;z-index:6;");
+                horsepos_left[i - 1] = 0;
+            }
+            document.getElementById("start").disabled = true;
+            document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;opacity:0.5;top:10px;left:1090px;z-index: 3;");
+            document.getElementById("new").disabled = false;
+            document.getElementById("new").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;top:10px;left:1195px;z-index: 3;");
+            document.getElementById("resulttext").innerHTML = "您獲得：？？？ 元";
+        }
+        function okay()
+        {
+            money = parseInt(document.getElementById("bet").value);
+            previous = money;
+            console.log("bet=" + money);
+            document.getElementById("bet").disabled = true;
+            document.getElementById("sure").disabled = true;
+            for (var i = 1; i <= 8; i++)
+            {
+                document.getElementById("but" + i).disabled = false;
+                document.getElementById("but" + i).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:15px;left:" + butpos_left[i - 1] + "px;z-index:3;");
+            }
+            document.getElementById("sure").setAttribute("class", "sure_unavaliable");
+        }
+        function choose1()
+        {
+            if (bet != 0)
+            {
+                document.getElementById("but" + bet).disabled = false;
+                document.getElementById("but" + bet).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:15px;left:" + butpos_left[bet - 1] + "px;z-index:3;");
+            }
+            else
+            {
+                document.getElementById("start").disabled = false;
+                document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;top:10px;left:1090px;z-index: 3;");
+            }
+            document.getElementById("but1").disabled = true;
+            document.getElementById("but1").setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[0] + "px;z-index:3;");
+            bet = 1;
+        }
+        function choose2()
+        {
+            if (bet != 0)
+            {
+                document.getElementById("but" + bet).disabled = false;
+                document.getElementById("but" + bet).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:15px;left:" + butpos_left[bet - 1] + "px;z-index:3;");
+            }
+            else
+            {
+                document.getElementById("start").disabled = false;
+                document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;top:10px;left:1090px;z-index: 3;");
+            }
+            document.getElementById("but2").disabled = true;
+            document.getElementById("but2").setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[1] + "px;z-index:3;");
+            bet = 2;
+        }
+        function choose3()
+        {
+            if (bet != 0)
+            {
+                document.getElementById("but" + bet).disabled = false;
+                document.getElementById("but" + bet).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:15px;left:" + butpos_left[bet - 1] + "px;z-index:3;");
+            }
+            else
+            {
+                document.getElementById("start").disabled = false;
+                document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;top:10px;left:1090px;z-index: 3;");
+            }
+            document.getElementById("but3").disabled = true;
+            document.getElementById("but3").setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[2] + "px;z-index:3;");
+            bet = 3;
+        }
+        function choose4()
+        {
+            if (bet != 0)
+            {
+                document.getElementById("but" + bet).disabled = false;
+                document.getElementById("but" + bet).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:15px;left:" + butpos_left[bet - 1] + "px;z-index:3;");
+            }
+            else
+            {
+                document.getElementById("start").disabled = false;
+                document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;0.5;top:10px;left:1090px;z-index: 3;");
+            }
+            document.getElementById("but4").disabled = true;
+            document.getElementById("but4").setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[3] + "px;z-index:3;");
+            bet = 4;
+        }
+        function choose5()
+        {
+            if (bet != 0)
+            {
+                document.getElementById("but" + bet).disabled = false;
+                document.getElementById("but" + bet).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:15px;left:" + butpos_left[bet - 1] + "px;z-index:3;");
+            }
+            else
+            {
+                document.getElementById("start").disabled = false;
+                document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;top:10px;left:1090px;z-index: 3;");
+            }
+            document.getElementById("but5").disabled = true;
+            document.getElementById("but5").setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[4] + "px;z-index:3;");
+            bet = 5;
+
+        }
+        function choose6()
+        {
+            if (bet != 0)
+            {
+                document.getElementById("but" + bet).disabled = false;
+                document.getElementById("but" + bet).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:15px;left:" + butpos_left[bet - 1] + "px;z-index:3;");
+            }
+            else
+            {
+                document.getElementById("start").disabled = false;
+                document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;top:10px;left:1090px;z-index: 3;");
+            }
+            document.getElementById("but6").disabled = true;
+            document.getElementById("but6").setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[5] + "px;z-index:3;");
+            bet = 6;
+        }
+        function choose7()
+        {
+            if (bet != 0)
+            {
+                document.getElementById("but" + bet).disabled = false;
+                document.getElementById("but" + bet).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:15px;left:" + butpos_left[bet - 1] + "px;z-index:3;");
+            }
+            else
+            {
+                document.getElementById("start").disabled = false;
+                document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;top:10px;left:1090px;z-index: 3;");
+            }
+            document.getElementById("but7").disabled = true;
+            document.getElementById("but7").setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[6] + "px;z-index:3;");
+            bet = 7;
+        }
+        function choose8()
+        {
+            if (bet != 0)
+            {
+                document.getElementById("but" + bet).disabled = false;
+                document.getElementById("but" + bet).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;top:15px;left:" + butpos_left[bet - 1] + "px;z-index:3;");
+            }
+            else
+            {
+                document.getElementById("start").disabled = false;
+                document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;top:10px;left:1090px;z-index: 3;");
+            }
+            document.getElementById("but8").disabled = true;
+            document.getElementById("but8").setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[7] + "px;z-index:3;");
+            bet = 8;
+        }
+        function new_ava()
+        {
+            document.getElementById("new").disabled = false;
+            document.getElementById("new").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;top:10px;left:1195px;z-index: 3;");
+        }
+        function showresult()
+        {
+            if (count == 9)
+            {
+                console.log("before:" + money);
+                if (winner == bet)
+                    money *= 5;
+                else
+                    money = -money;
+                console.log("after:" + money);
+                document.getElementById("resulttext").innerHTML = "您獲得：" + money + "元";  
+                var coin1=parseInt(coin);
+                var money1=parseInt(money);
+                coin=coin1+money1;
+                document.getElementById("Coin").innerHTML="$"+coin;
+                localStorage.setItem("coin",coin);      
+                new_ava();
+                clearInterval(j2);
+            }
+            else
+            {
+                count++;
+                if (count % 2 == 0)
+                {
+                    $("#win" + winner).hide();
+                }
+                else
+                {
+                    $("#win" + winner).show();
+                }
+            }
+
+        }
+        function runhorse()
+        {
+            //console.log(horsepos_left);
+            ended = 0;
+            for (var i = 0; i < 8; i++)
+                if (horsepos_left[i] > 1271)
+                {
+                    win[ended] = i;
+                    ended++;
+                }
+            if (ended>0)
+            {
+                console.log(horsepos_left);
+                console.log("num=" + ended);
+                console.log("win.length=" + win.length);
+                console.log(win);
+                var w = 0;
+                if (ended > 1)
+                {
+                    for (i = 0; i < ended; i++)
+                    {
+                        if (horsepos_left[win[i]] > w)
+                        {
+                            w = horsepos_left[win[i]];
+                            winner = win[i] + 1;
+                        }
+                    }
+                }
+                else
+                {
+                    winner = win[0] + 1;
+                }
+                console.log("winner=" + winner);
+                j2 = window.setInterval("showresult()", 300);
+                clearInterval(j1);
+            }
+            else
+            {
+                for (i = 1; i <= 8; i++)
+                {
+                    var tomove = Math.floor(Math.random() * 25);
+                    if (horsepos_left[i - 1] < 100)
+                    {
+                        while (move[tomove] < 0)
+                            tomove = Math.floor(Math.random() * 25);
+                    }
+                    else
+                    {
+                        while (horsepos_left[i - 1] + move[tomove] < 100)
+                            tomove = Math.floor(Math.random() * 25);
+                    }
+                    horsepos_left[i - 1] = horsepos_left[i - 1] + move[tomove];
+                    document.getElementById("horse" + i).setAttribute("style", "position:absolute;top:" + horsepos_top[i-1] + "px;left:" + horsepos_left[i - 1] + "px;width:70px;height:80px;z-index:6;");
+                }
+
+            }
+        }
+        function start()
+        {
+            count = 0;
+            $("#runway" + bet).show();
+            for (var i = 1; i <= 8; i++)
+            {
+                document.getElementById("but" + i).disabled = true;
+                document.getElementById("but" + i).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[i - 1] + "px;z-index:3;");
+            }
+            document.getElementById("start").disabled = true;
+            document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;opacity:0.5;top:10px;left:1090px;z-index: 3;");
+            document.getElementById("new").disabled = true;
+            document.getElementById("new").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;opacity:0.5;top:10px;left:1195px;z-index:3;");
+            console.log("bet horse=" + bet);
+            j1 = window.setInterval("runhorse()", 1);
+        }
+        window.addEventListener("load", newgame, false);
+    </script>
+</head>
+<body>
+    <p>
+        <img src="web-background.jpg" class="background_image" alt="background">
+    </p>
+    <div class="rule">
+        <p>規則:</p>
+        <p>
+            請先選擇您想下注的編號，再按下 <span>Strat!!</span>
+        </p>
+    </div>
+    <div id="horese">
+        <input id="bet" type="number" min="1000" max="100000" step="1000" value="5000">
+        <input id="sure" class="sure_avaliable" type="button" value="確定" onclick="okay()">
+        <input id="but1" type="button" value="Horse1" onclick="choose1()">
+        <input id="but2" type="button" value="Horse2" onclick="choose2()">
+        <input id="but3" type="button" value="Horse3" onclick="choose3()">
+        <input id="but4" type="button" value="Horse4" onclick="choose4()">
+        <input id="but5" type="button" value="Horse5" onclick="choose5()">
+        <input id="but6" type="button" value="Horse6" onclick="choose6()">
+        <input id="but7" type="button" value="Horse7" onclick="choose7()">
+        <input id="but8" type="button" value="Horse8" onclick="choose8()">
+        <input id="start" type="button" value="Start!!" onclick="start()">
+        <input id="new" type="button" value="New Game!!" onclick="newgame()">
+    </div>
+    <div id="result">
+        <p id="resulttext"></p>
+    </div>
+    <div id="runway">
+        <img src="runway.png" class="runway_image" alt="runway">
+        <img src="horse.png" id="horse1" alt="horse1">
+        <img src="horse.png" id="horse2" alt="horse2">
+        <img src="horse.png" id="horse3" alt="horse3">
+        <img src="horse.png" id="horse4" alt="horse4">
+        <img src="horse.png" id="horse5" alt="horse5">
+        <img src="horse.png" id="horse6" alt="horse6">
+        <img src="horse.png" id="horse7" alt="horse7">
+        <img src="horse.png" id="horse8" alt="horse8">
+        <img src="runway1.png" id="runway1" alt="runway1" style="position:absolute;width:1306px;height:79.5px;top:0px;left:0px;z-index: 4;">
+        <img src="runway2.png" id="runway2" alt="runway2" style="position:absolute;width:1306px;height:79.5px;top:82px;left:0px;z-index: 4;">
+        <img src="runway3.png" id="runway3" alt="runway3" style="position:absolute;width:1306px;height:79.5px;top:164px;left:0px;z-index: 4;">
+        <img src="runway4.png" id="runway4" alt="runway4" style="position:absolute;width:1306px;height:79.5px;top:246px;left:0px;z-index: 4;">
+        <img src="runway5.png" id="runway5" alt="runway5" style="position:absolute;width:1306px;height:79.5px;top:328px;left:0px;z-index: 4;">
+        <img src="runway6.png" id="runway6" alt="runway6" style="position:absolute;width:1306px;height:79.5px;top:410px;left:0px;z-index: 4;">
+        <img src="runway7.png" id="runway7" alt="runway7" style="position:absolute;width:1306px;height:79.5px;top:492px;left:0px;z-index: 4;">
+        <img src="runway8.png" id="runway8" alt="runway8" style="position:absolute;width:1306px;height:79.5px;top:575px;left:0px;z-index: 4;">
+        <img src="win1.png" id="win1" alt="win1" style="position:absolute;width:1306px;height:79.5px;top:0px;left:0px;z-index:5;">
+        <img src="win2.png" id="win2" alt="win2" style="position:absolute;width:1306px;height:79.5px;top:82px;left:0px;z-index:5;">
+        <img src="win3.png" id="win3" alt="win3" style="position:absolute;width:1306px;height:79.5px;top:164px;left:0px;z-index:5;">
+        <img src="win4.png" id="win4" alt="win4" style="position:absolute;width:1306px;height:79.5px;top:246px;left:0px;z-index:5;">
+        <img src="win5.png" id="win5" alt="win5" style="position:absolute;width:1306px;height:79.5px;top:328px;left:0px;z-index:5;">
+        <img src="win6.png" id="win6" alt="win6" style="position:absolute;width:1306px;height:79.5px;top:410px;left:0px;z-index:5;">
+        <img src="win7.png" id="win7" alt="win7" style="position:absolute;width:1306px;height:79.5px;top:492px;left:0px;z-index:5;">
+        <img src="win8.png" id="win8" alt="win8" style="position:absolute;width:1306px;height:79.5px;top:575px;left:0px;z-index:5;">
+    </div>
+    <div class="right">
+        <div class="hello" id="Hello"></div>
+        <div class="coin" id="Coin"></div>
+    </div>
+</body>
+</html>

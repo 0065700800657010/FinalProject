@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>遊戲選單</title>
+    <link rel="stylesheet" type="text/css" href="遊戲選單.css">
+    <script>
+        var coin;
+        function start()
+        {
+            name=localStorage.getItem("name");
+            document.getElementById("Hello").innerHTML="Hello,"+name+":";
+            coin=localStorage.getItem("coin");
+            document.getElementById("Coin").innerHTML="$"+coin;
+            document.getElementById("End").addEventListener("click",endgame,false);
+        }
+        function endgame()
+        {
+            localStorage.clear();
+            window.alert("Thanks!");
+            window.close();
+        }
+        window.addEventListener("load",start,false);
+    </script>
+</head>
+<body> 
+        <img src="web-background.jpg" class="background_image" alt="Background image">       
+    
+    <div class="up">        
+        <img class="casinotable" src="casinotable1.png" alt="casinotable">
+        <img class="logo" src="casinocoin-golden.png" alt="LOGO">
+        <p class="title">遊戲選單</p>
+    </div>
+    <a href="00657008-00657010-Homepage.html"><img class="back" src="返回鍵.png"><p class="backword">賭場大廳</p></a>
+    <div class="right">              
+        <div class="hello" id="Hello"></div>        
+        <div class="coin"  id="Coin"></div>
+        <input type="button" value="End Game!" id="End" class="end">
+    </div>
+    
+   <div class="Game">
+        <a href="比大小.html"  target="_blank">
+            <img src="比大小遊戲畫面.png" alt="Game1pic" class="Game1pic">
+            <img src="Chip.png" alt="chip1"    class="chip1">
+            <p class="gametitle1">比大小</p>
+        </a>    
+        <a href="打地鼠.html" target="_blank">
+            <img src="打地鼠遊戲畫面.png" alt="Game2pic" class="Game2pic">
+            <img src="Chip.png" alt="chip2"     class="chip2">
+            <p class="gametitle2">打地鼠</p>
+        </a>        
+    
+        <a href="21點.html"  target="_blank">
+            <img src="21點遊戲畫面.png" alt="Game3pic" class="Game3pic">
+            <img src="Chip.png" alt="chip3"     class="chip3">
+            <p class="gametitle3">21點 </p>
+        </a>
+    
+        <a href="賽馬.html" target="_blank">
+            <img src="賽馬遊戲畫面.png" alt="Game4pic" class="Game4pic">
+            <img src="Chip.png" alt="chip4"     class="chip4">
+            <p class="gametitle4">賽馬</p>
+        </a>
+
+        <a href="猜牌.html" target="_blank">
+            <img src="猜牌遊戲畫面.png" alt="Game5pic" class="Game5pic">
+            <img src="Chip.png" alt="chip5"     class="chip5">
+            <p class="gametitle5">猜牌</p>
+        </a>
+    </div>
+</body>
+</html>
