@@ -226,7 +226,7 @@
         .right
         {
             position: absolute;
-            z-index: 1;
+            z-index: 2;
             margin-top:10px;
             left:1500px ;
         }
@@ -238,7 +238,7 @@
             font-size: 40px;    
             font-weight: bold;
             color: rgb(228, 253, 1);
-            z-index: 2;
+            z-index: 20;
         }
         .coin
         {
@@ -249,7 +249,7 @@
             color: black;
             font-size: 45px;    
             background-color: orange;
-            z-index: 2;
+            z-index: 20;
             right: 0px;
             top: 0px;
         }
@@ -315,96 +315,130 @@
         }
         function newgame()
         {
-            name=localStorage.getItem("name");
-            document.getElementById("Hello").innerHTML="Hello,"+name+":";
-            coin=localStorage.getItem("coin");
-            document.getElementById("Coin").innerHTML="$"+coin;
-            //console.clear();
-            document.getElementById("new").disabled = false;
-            document.getElementById("bet").disabled = false;
-            document.getElementById("sure").disabled = false;
-            document.getElementById("add").disabled = true;
-            document.getElementById("pass").disabled = true;
-            document.getElementById("new").setAttribute("class", "new_avaliable");
-            document.getElementById("sure").setAttribute("class", "sure_avaliable");
-            document.getElementById("add").setAttribute("class", "add_unavaliable");
-            document.getElementById("pass").setAttribute("class", "pass_unavaliable");
-            document.getElementById("resulttext").innerHTML = "您獲得：？？？ 元";
-            current1 = 2;
-            current2 = 2;
-            pace = 0;
-            cace = 0;
-            minus = 0;
-            first = 0;
-            for (var i = 0; i < 52; i++)
-                deck[i] = 0;
-            //console.log(deck);
-            for (var i = 3; i < 12; i++)
+            var length = localStorage.length;
+            var sub;
+            var exisit = 0;
+            var name;
+            for (var i = 0; i < length; ++i)
             {
-                $("#p" + i).hide();
-                $("#c" + i).hide();
-            }
-            var count = 0;
-            for (i = 1; i <= 11; i++)
-            {
-                var ps = Math.floor(Math.random() * 4);
-                var pn = Math.floor(Math.random() * 13);
-                count++;
-                console.log(count + ": playercard" + i + " is " + suit[ps] + "-" + num[pn]);
-                while (deck[ps*13+pn] != 0)
+                var tmp = localStorage.key(i);
+                var n = tmp.startsWith("00657008.10-")
+                if (n == true)
                 {
-                    ps = Math.floor(Math.random() * 4);
-                    pn = Math.floor(Math.random() * 13);
-                    count++;
-                    console.log(count + ": playercard" + i + " is " + suit[ps] + "-" + num[pn]);
-                }           
-                deck[ps * 13 + pn]++;
-                if(pn<9)
-                    player[i - 1] = pn+1;
-                else
-                    player[i - 1] = 10;
-                document.getElementById("p" + i).setAttribute("src", suit[ps] + "-" + num[pn] + ".jpg");
-                document.getElementById("p" + i).setAttribute("alt", suit[ps] + "-" + num[pn]);
-                var cs = Math.floor(Math.random() * 4);
-                var cn = Math.floor(Math.random() * 13);
-                count++;
-                console.log(count + ": computercard" + i + " is " + suit[cs] + "-" + num[cn]);
-                while (deck[cs * 13 + cn] != 0)
-                {
-                    cs = Math.floor(Math.random() * 4);
-                    cn = Math.floor(Math.random() * 13);
-                    count++;
-                    console.log(count + ": computercard" + i + " is " + suit[cs] + "-" + num[cn]);
-                }
-                com_num[i - 1] = cn;
-                com_suit[i - 1] = cs;
-                deck[cs * 13 + cn]++;
-                if (cn < 9)
-                    computer[i - 1] = cn+1;
-                else
-                    computer[i - 1] = 10;
-                if (i == 1)
-                {
-                    document.getElementById("c" + i).setAttribute("src", suit[cs] + "-" + num[cn] + ".jpg");
-                    document.getElementById("c" + i).setAttribute("alt", suit[cs] + "-" + num[cn]);
-                }
-                else
-                {
-                    document.getElementById("c" + i).setAttribute("src", "back.jpg");
-                    document.getElementById("c" + i).setAttribute("alt", "back");
+                    sub = tmp.substring(12);
+                    //console.log(sub);
+                    if (sub == "name")
+                    {
+                        name = localStorage.getItem("00657008.10-name");
+                        exisit++;
+                    }
+                    else if (sub == "coin")
+                    {
+                        coin = localStorage.getItem("00657008.10-coin");
+                        exisit++;
+                    }
                 }
             }
-            document.getElementById("cp").innerHTML = "";
-            setplayer(current1);
-            setcomputer(current2);
-            console.log(player);
-            console.log(computer);
+            //console.log(exisit);
+            if (exisit == 2)
+            {
+                name = localStorage.getItem("00657008.10-name");
+                document.getElementById("Hello").innerHTML = "Hello," + name + ":";
+                coin = localStorage.getItem("00657008.10-coin");
+                document.getElementById("Coin").innerHTML = "$" + coin;
+                //console.clear();
+                document.getElementById("new").disabled = false;
+                document.getElementById("bet").disabled = false;
+                document.getElementById("sure").disabled = false;
+                document.getElementById("add").disabled = true;
+                document.getElementById("pass").disabled = true;
+                document.getElementById("new").setAttribute("class", "new_avaliable");
+                document.getElementById("sure").setAttribute("class", "sure_avaliable");
+                document.getElementById("add").setAttribute("class", "add_unavaliable");
+                document.getElementById("pass").setAttribute("class", "pass_unavaliable");
+                document.getElementById("resulttext").innerHTML = "您獲得：？？？ 元";
+                current1 = 2;
+                current2 = 2;
+                pace = 0;
+                cace = 0;
+                minus = 0;
+                first = 0;
+                for (var i = 0; i < 52; i++)
+                    deck[i] = 0;
+                //console.log(deck);
+                for (var i = 3; i < 12; i++)
+                {
+                    $("#p" + i).hide();
+                    $("#c" + i).hide();
+                }
+                var count = 0;
+                for (i = 1; i <= 11; i++)
+                {
+                    var ps = Math.floor(Math.random() * 4);
+                    var pn = Math.floor(Math.random() * 13);
+                    count++;
+                    //console.log(count + ": playercard" + i + " is " + suit[ps] + "-" + num[pn]);
+                    while (deck[ps * 13 + pn] != 0)
+                    {
+                        ps = Math.floor(Math.random() * 4);
+                        pn = Math.floor(Math.random() * 13);
+                        count++;
+                        //console.log(count + ": playercard" + i + " is " + suit[ps] + "-" + num[pn]);
+                    }
+                    deck[ps * 13 + pn]++;
+                    if (pn < 9)
+                        player[i - 1] = pn + 1;
+                    else
+                        player[i - 1] = 10;
+                    document.getElementById("p" + i).setAttribute("src", suit[ps] + "-" + num[pn] + ".jpg");
+                    document.getElementById("p" + i).setAttribute("alt", suit[ps] + "-" + num[pn]);
+                    var cs = Math.floor(Math.random() * 4);
+                    var cn = Math.floor(Math.random() * 13);
+                    count++;
+                    //console.log(count + ": computercard" + i + " is " + suit[cs] + "-" + num[cn]);
+                    while (deck[cs * 13 + cn] != 0)
+                    {
+                        cs = Math.floor(Math.random() * 4);
+                        cn = Math.floor(Math.random() * 13);
+                        count++;
+                        //console.log(count + ": computercard" + i + " is " + suit[cs] + "-" + num[cn]);
+                    }
+                    com_num[i - 1] = cn;
+                    com_suit[i - 1] = cs;
+                    deck[cs * 13 + cn]++;
+                    if (cn < 9)
+                        computer[i - 1] = cn + 1;
+                    else
+                        computer[i - 1] = 10;
+                    if (i == 1)
+                    {
+                        document.getElementById("c" + i).setAttribute("src", suit[cs] + "-" + num[cn] + ".jpg");
+                        document.getElementById("c" + i).setAttribute("alt", suit[cs] + "-" + num[cn]);
+                    }
+                    else
+                    {
+                        document.getElementById("c" + i).setAttribute("src", "back.jpg");
+                        document.getElementById("c" + i).setAttribute("alt", "back");
+                    }
+                }
+                document.getElementById("cp").innerHTML = "";
+                setplayer(current1);
+                setcomputer(current2);
+                //console.log(player);
+                //console.log(computer);
+            }
+            else
+            {
+                window.alert("請回首頁輸入名字！！！");
+                document.location.href = "index.html";
+            }
+            
         }
         function okay()
         {
             bet = parseInt(document.getElementById("bet").value);
             previous = bet;
-            console.log("bet=" + bet);
+            //console.log("bet=" + bet);
             document.getElementById("bet").disabled = true;
             document.getElementById("sure").disabled = true;
             document.getElementById("add").disabled = false;
@@ -419,10 +453,10 @@
             document.getElementById("new").disabled = false;
             document.getElementById("new").setAttribute("class", "new_avaliable");
             var coin1=parseInt(coin);
-            var bet1=parseInt(bet);
+            var bet1 = parseInt(bet);
             coin=coin1+bet1;
-            document.getElementById("Coin").innerHTML="$"+coin;
-            localStorage.setItem("coin",coin);
+            document.getElementById("Coin").innerHTML = "$" + coin; 
+            localStorage.setItem("00657008.10-coin", coin);      
         }
         function addcard()
         {

@@ -117,7 +117,7 @@
             font-size: 40px;    
             font-weight: bold;
             color: blue;
-            z-index: 2;
+            z-index: 20;
         }
         .coin
         {
@@ -128,7 +128,7 @@
             color: black;
             font-size: 45px;    
             background-color: orange;
-            z-index: 2;
+            z-index: 20;
             right: 0px;
             top: 0px;
         }
@@ -150,37 +150,70 @@
         var coin;
         function newgame()
         {
-            name=localStorage.getItem("name");
-            document.getElementById("Hello").innerHTML = "Hello," + name + ":";
-            coin=localStorage.getItem("coin");
-            document.getElementById("Coin").innerHTML="$"+coin;
-            document.getElementById("bet").disabled = false;
-            document.getElementById("sure").disabled = false;
-            document.getElementById("sure").setAttribute("class", "sure_avaliable");
-            bet = 0;
-            for(var i = 1; i <= 8; i++)
+            var length = localStorage.length;
+            var sub;
+            var exisit = 0;
+            var name;
+            for (var i = 0; i < length; ++i)
             {
-                $("#runway" + i).hide();
-                $("#win" + i).hide();
+                var tmp = localStorage.key(i);
+                var n = tmp.startsWith("00657008.10-")
+                if (n == true)
+                {
+                    sub = tmp.substring(12);
+                    //console.log(sub);
+                    if (sub == "name")
+                    {
+                        name = localStorage.getItem("00657008.10-name");
+                        exisit++;
+                    }
+                    else if (sub == "coin")
+                    {
+                        coin = localStorage.getItem("00657008.10-coin");
+                        exisit++;
+                    }
+                }
             }
-            for (var i = 1; i <= 8; i++)
+            //console.log(exisit);
+            if (exisit == 2)
             {
-                document.getElementById("but" + i).disabled = true;
-                document.getElementById("but" + i).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[i - 1] + "px;z-index:3;");
-                document.getElementById("horse" + i).setAttribute("style", "position:absolute;top:" + horsepos_top[i] + "px;left:0px;width:70px;height:80px;z-index:6;");
-                horsepos_left[i - 1] = 0;
+                name = localStorage.getItem("00657008.10-name");
+                document.getElementById("Hello").innerHTML = "Hello," + name + ":";
+                coin = localStorage.getItem("00657008.10-coin");
+                document.getElementById("Coin").innerHTML = "$" + coin;
+                document.getElementById("bet").disabled = false;
+                document.getElementById("sure").disabled = false;
+                document.getElementById("sure").setAttribute("class", "sure_avaliable");
+                bet = 0;
+                for (var i = 1; i <= 8; i++)
+                {
+                    $("#runway" + i).hide();
+                    $("#win" + i).hide();
+                }
+                for (var i = 1; i <= 8; i++)
+                {
+                    document.getElementById("but" + i).disabled = true;
+                    document.getElementById("but" + i).setAttribute("style", "position:absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:15px;left:" + butpos_left[i - 1] + "px;z-index:3;");
+                    document.getElementById("horse" + i).setAttribute("style", "position:absolute;top:" + horsepos_top[i] + "px;left:0px;width:70px;height:80px;z-index:6;");
+                    horsepos_left[i - 1] = 0;
+                }
+                document.getElementById("start").disabled = true;
+                document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;opacity:0.5;top:10px;left:1090px;z-index: 3;");
+                document.getElementById("new").disabled = false;
+                document.getElementById("new").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;top:10px;left:1195px;z-index: 3;");
+                document.getElementById("resulttext").innerHTML = "您獲得：？？？ 元";
             }
-            document.getElementById("start").disabled = true;
-            document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;opacity:0.5;top:10px;left:1090px;z-index: 3;");
-            document.getElementById("new").disabled = false;
-            document.getElementById("new").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;top:10px;left:1195px;z-index: 3;");
-            document.getElementById("resulttext").innerHTML = "您獲得：？？？ 元";
+            else
+            {
+                window.alert("請回首頁輸入名字！！！");
+                document.location.href = "index.html";
+            }  
         }
         function okay()
         {
             money = parseInt(document.getElementById("bet").value);
             previous = money;
-            console.log("bet=" + money);
+            //console.log("bet=" + money);
             document.getElementById("bet").disabled = true;
             document.getElementById("sure").disabled = true;
             for (var i = 1; i <= 8; i++)
@@ -328,18 +361,18 @@
         {
             if (count == 9)
             {
-                console.log("before:" + money);
+                //console.log("before:" + money);
                 if (winner == bet)
                     money *= 5;
                 else
                     money = -money;
-                console.log("after:" + money);
+                //console.log("after:" + money);
                 document.getElementById("resulttext").innerHTML = "您獲得：" + money + "元";  
                 var coin1=parseInt(coin);
                 var money1=parseInt(money);
                 coin=coin1+money1;
                 document.getElementById("Coin").innerHTML="$"+coin;
-                localStorage.setItem("coin",coin);      
+                localStorage.setItem("00657008.10-coin",coin);      
                 new_ava();
                 clearInterval(j2);
             }
@@ -369,10 +402,10 @@
                 }
             if (ended>0)
             {
-                console.log(horsepos_left);
+                /*console.log(horsepos_left);
                 console.log("num=" + ended);
                 console.log("win.length=" + win.length);
-                console.log(win);
+                console.log(win);*/
                 var w = 0;
                 if (ended > 1)
                 {
@@ -389,7 +422,7 @@
                 {
                     winner = win[0] + 1;
                 }
-                console.log("winner=" + winner);
+                //console.log("winner=" + winner);
                 j2 = window.setInterval("showresult()", 300);
                 clearInterval(j1);
             }
@@ -427,7 +460,7 @@
             document.getElementById("start").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;opacity:0.5;top:10px;left:1090px;z-index: 3;");
             document.getElementById("new").disabled = true;
             document.getElementById("new").setAttribute("style", "position:absolute;color:firebrick;font-size:25px;opacity:0.5;top:10px;left:1195px;z-index:3;");
-            console.log("bet horse=" + bet);
+            //console.log("bet horse=" + bet);
             j1 = window.setInterval("runhorse()", 1);
         }
         window.addEventListener("load", newgame, false);

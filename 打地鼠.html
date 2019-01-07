@@ -250,33 +250,66 @@
             var coin;
             function setup()
             {       
-                name=localStorage.getItem("name");
-                document.getElementById("Hello").innerHTML="Hello,"+name+":";
-                coin=localStorage.getItem("coin");
-                document.getElementById("Coin").innerHTML="$"+coin;
-                document.getElementById("start").addEventListener("click",zero2,false); 
-                for(var j=1 ;j<=5 ;j++)
+                var length = localStorage.length;
+                var sub;
+                var exisit = 0;
+                var name;
+                for (var i = 0; i < length; ++i)
                 {
-                    for(var i=1;i<=5;i++)
+                    var tmp = localStorage.key(i);
+                    var n = tmp.startsWith("00657008.10-")
+                    if (n == true)
                     {
-                        $("#"+j+"-"+i).hide();
+                        sub = tmp.substring(12);
+                        //console.log(sub);
+                        if (sub == "name")
+                        {
+                            name = localStorage.getItem("00657008.10-name");
+                            exisit++;
+                        }
+                        else if (sub == "coin")
+                        {
+                            coin = localStorage.getItem("00657008.10-coin");
+                            exisit++;
+                        }
                     }
-                }                                                
-                document.getElementById("start").disabled = false;
-                document.getElementById("money").disabled = false;
-                document.getElementById("gamespeed").disabled = false;
-                document.getElementById("gametime").disabled = false;
-                
-                var numtime = document.getElementById("numtime") 
-                    numtime.innerHTML="已點擊 0 次";
-                    
-                var earn = document.getElementById("earn")                 
-                    earn.innerHTML="已獲得 0 coin"
-                clearInterval(timer);
-                benefit=0;
-                num=0;     
-                Tt=0;
-                timer=0;
+                }
+                //console.log(exisit);
+                if (exisit == 2)
+                {
+                    name = localStorage.getItem("00657008.10-name");
+                    document.getElementById("Hello").innerHTML = "Hello," + name + ":";
+                    coin = localStorage.getItem("00657008.10-coin");
+                    document.getElementById("Coin").innerHTML = "$" + coin;
+                    document.getElementById("start").addEventListener("click", zero2, false);
+                    for (var j = 1; j <= 5; j++)
+                    {
+                        for (var i = 1; i <= 5; i++)
+                        {
+                            $("#" + j + "-" + i).hide();
+                        }
+                    }
+                    document.getElementById("start").disabled = false;
+                    document.getElementById("money").disabled = false;
+                    document.getElementById("gamespeed").disabled = false;
+                    document.getElementById("gametime").disabled = false;
+
+                    var numtime = document.getElementById("numtime")
+                    numtime.innerHTML = "已點擊 0 次";
+
+                    var earn = document.getElementById("earn")
+                    earn.innerHTML = "已獲得 0 coin"
+                    clearInterval(timer);
+                    benefit = 0;
+                    num = 0;
+                    Tt = 0;
+                    timer = 0;
+                }
+                else
+                {
+                    window.alert("請回首頁輸入名字！！！");
+                    document.location.href = "index.html";
+                } 
             }
             function start()
             {          
@@ -371,10 +404,10 @@
                     var coin1=parseInt(coin);
                     var earn1=parseInt(earn);
                     coin=coin1+earn1;
-                    console.log(coin1);
-                    console.log(earn1)
-                    document.getElementById("Coin").innerHTML="$"+coin;
-                    localStorage.setItem("coin",coin);
+                    //console.log(coin1);
+                    //console.log(earn1)
+                    document.getElementById("Coin").innerHTML = "$" + coin;
+                    localStorage.setItem("00657008.10-coin", coin);  
 				}
                 else
                 {

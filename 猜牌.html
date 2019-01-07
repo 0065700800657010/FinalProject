@@ -202,7 +202,7 @@
         .right
         {
             position: absolute;
-            z-index: 1;
+            z-index: 2;
             margin-top:10px;
             left:1500px ;
         }
@@ -214,7 +214,7 @@
             font-size: 40px;    
             font-weight: bold;
             color: rgb(228, 253, 1);
-            z-index: 2;
+            z-index: 20;
         }
         .coin
         {
@@ -225,7 +225,7 @@
             color: black;
             font-size: 45px;    
             background-color: orange;
-            z-index: 2;
+            z-index: 20;
             right: 0px;
             top: 0px;
         }
@@ -247,50 +247,80 @@
         var coin;
         function newgame()
         {
-            name=localStorage.getItem("name");
-            document.getElementById("Hello").innerHTML="Hello,"+name+":";
-            coin=localStorage.getItem("coin");
-            document.getElementById("Coin").innerHTML="$"+coin;
-            document.getElementById("bet").disabled = false;
-            document.getElementById("sure").disabled = false;
-            document.getElementById("sure").setAttribute("class", "sure_avaliable");
-            document.getElementById("reset").disabled = true;
-            document.getElementById("reset").setAttribute("class", "reset_unavaliable");
-            document.getElementById("pick").disabled = true;
-            document.getElementById("pick").setAttribute("class", "pick_unavaliable");
-            document.getElementById("cards").setAttribute("src", "back.jpg");
-            document.getElementById("cards").setAttribute("alt", "back");
-            document.getElementById("betnumber").innerHTML = "您下注的數字：";
-            document.getElementById("betsuit").innerHTML = "您下注的花色：";
-            document.getElementById("betcolor").innerHTML = "您下注的顏色：";
-            document.getElementById("resulttext").innerHTML = "您獲得：？？？元";
-            n = -1;
-            s = -1;
-            c = -1;
-            for (var i = 0; i < 13; i++)
+            var length = localStorage.length;
+            var sub;
+            var exisit = 0;
+            var name;
+            for (var i = 0; i < length; ++i)
             {
-                document.getElementById(num_buttons[i]).disabled = true;
-                document.getElementById(num_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[i]+"px;z-index: 3;");
-            }         
-            for (var i = 0; i < 4; i++)
-            {
-                document.getElementById(suit_buttons[i]).disabled = true;
-                document.getElementById(suit_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:80px;left:" + suit_buttons_left[i] + "px;z-index: 3;");
-            }                
-            for (var i = 0; i < 2; i++)
-            {
-                document.getElementById(color_buttons[i]).disabled = true;
-                document.getElementById(color_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:115px;left:" + color_buttons_left[i] + "px;z-index: 3;");
+                var tmp = localStorage.key(i);
+                var n = tmp.startsWith("00657008.10-")
+                if (n == true)
+                {
+                    sub = tmp.substring(12);
+                    //console.log(sub);
+                    if (sub == "name")
+                    {
+                        name = localStorage.getItem("00657008.10-name");
+                        exisit++;
+                    }
+                    else if (sub == "coin")
+                    {
+                        coin = localStorage.getItem("00657008.10-coin");
+                        exisit++;
+                    }
+                }
             }
-            
-            cn = Math.floor(Math.random() * 13);
-            cs = Math.floor(Math.random() * 4);
-            console.log("cn=" + cn + ", num[cn]=" + num[cn] + ", cs=" + cs + ", suit[cs]=" + suit[cs]);
+           //console.log(exisit);
+            if (exisit == 2)
+            {
+                name = localStorage.getItem("00657008.10-name");
+                document.getElementById("Hello").innerHTML = "Hello," + name + ":";
+                coin = localStorage.getItem("00657008.10-coin");
+                document.getElementById("Coin").innerHTML = "$" + coin;
+                document.getElementById("bet").disabled = false;
+                document.getElementById("sure").disabled = false;
+                document.getElementById("sure").setAttribute("class", "sure_avaliable");
+                document.getElementById("reset").disabled = true;
+                document.getElementById("reset").setAttribute("class", "reset_unavaliable");
+                document.getElementById("pick").disabled = true;
+                document.getElementById("pick").setAttribute("class", "pick_unavaliable");
+                document.getElementById("cards").setAttribute("src", "back.jpg");
+                document.getElementById("cards").setAttribute("alt", "back");
+                document.getElementById("betnumber").innerHTML = "您下注的數字：";
+                document.getElementById("betsuit").innerHTML = "您下注的花色：";
+                document.getElementById("betcolor").innerHTML = "您下注的顏色：";
+                document.getElementById("resulttext").innerHTML = "您獲得：？？？元";
+                n = -1;
+                s = -1;
+                c = -1;
+                for (var i = 0; i < 13; i++) {
+                    document.getElementById(num_buttons[i]).disabled = true;
+                    document.getElementById(num_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:45px;left:" + num_buttons_left[i] + "px;z-index: 3;");
+                }
+                for (var i = 0; i < 4; i++) {
+                    document.getElementById(suit_buttons[i]).disabled = true;
+                    document.getElementById(suit_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:80px;left:" + suit_buttons_left[i] + "px;z-index: 3;");
+                }
+                for (var i = 0; i < 2; i++) {
+                    document.getElementById(color_buttons[i]).disabled = true;
+                    document.getElementById(color_buttons[i]).setAttribute("style", "position: absolute;background-color:white;color:rebeccapurple;font-size:20px;font-weight:bold;opacity:0.5;top:115px;left:" + color_buttons_left[i] + "px;z-index: 3;");
+                }
+
+                cn = Math.floor(Math.random() * 13);
+                cs = Math.floor(Math.random() * 4);
+                 //console.log("cn=" + cn + ", num[cn]=" + num[cn] + ", cs=" + cs + ", suit[cs]=" + suit[cs]);
+            }
+            else
+            {
+                window.alert("請回首頁輸入名字！！！");
+                document.location.href = "index.html";
+            } 
         }
         function sure()
         {
             bet = parseInt(document.getElementById("bet").value);
-            console.log("bet=" + bet);
+            //console.log("bet=" + bet);
             document.getElementById("bet").disabled = true;
             document.getElementById("sure").disabled = true;
             document.getElementById("sure").setAttribute("class", "sure_unavaliable");
@@ -345,8 +375,8 @@
             for (var i = 0; i < 2; i++)
                 document.getElementById(color_buttons[i]).disabled = true;
             document.getElementById("pick").disabled = true;
-            console.log("n=" + n + ", s=" + s + ", c=" + c);
-            console.log("bet=" + bet);
+            /*console.log("n=" + n + ", s=" + s + ", c=" + c);
+            console.log("bet=" + bet);*/
             detect();
             if (n != -1)
                 document.getElementById("betnumber").innerHTML = "您下注的數字：" + num[n];
@@ -364,10 +394,11 @@
             document.getElementById("cards").setAttribute("alt", suit[cs] + "-" + num[cn]);
             document.getElementById("resulttext").innerHTML = "您獲得：" + bet + "元";
             var coin1=parseInt(coin);
-            var bet1=parseInt(bet);
-            coin=coin1+bet1;
-            document.getElementById("Coin").innerHTML="$"+coin;
-            localStorage.setItem("coin",coin);      
+            var bet1 = parseInt(bet);
+            coin = coin1 + bet1;
+            document.getElementById("Coin").innerHTML = "$" + coin;
+            localStorage.setItem("00657008.10-coin", coin);       
+  
         }
         function clicktwo()
         {

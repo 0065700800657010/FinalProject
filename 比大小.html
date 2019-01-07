@@ -218,7 +218,7 @@
         .right
         {
             position: absolute;
-            z-index: 1;
+            z-index: 2;
             top:10px;
             left:98%;
         }
@@ -230,7 +230,7 @@
             font-size: 40px;    
             font-weight: bold;
             color: rgb(228, 253, 1);
-            z-index: 2;
+            z-index: 20;
         }
         .coin
         {
@@ -241,7 +241,7 @@
             color: black;
             font-size: 45px;    
             background-color: orange;
-            z-index: 2;
+            z-index: 20;
             right: 0px;
             top: 0px;
         }
@@ -257,42 +257,74 @@
         var coin;
         function newgame()
         {
-            name=localStorage.getItem("name");
-            document.getElementById("Hello").innerHTML="Hello,"+name+":";
-            coin=localStorage.getItem("coin");
-            document.getElementById("Coin").innerHTML="$"+coin;
-            document.getElementById("computer").setAttribute("src", "back.jpg");
-            document.getElementById("computer").setAttribute("alt", "back");
-            document.getElementById("resulttext").innerHTML = "您獲得：？？？ 元";
-            document.getElementById("bigorsmall").innerHTML = "這局比";
-            document.getElementById("sure").setAttribute("class", "sure_avaliable");
-            document.getElementById("big").setAttribute("class", "big_unavaliable");
-            document.getElementById("small").setAttribute("class", "small_unavaliable");
-            document.getElementById("pick").setAttribute("class", "pick_unavaliable");
-            document.getElementById("bet").disabled = false;
-            document.getElementById("sure").disabled = false;
-            document.getElementById("big").disabled = true;
-            document.getElementById("small").disabled = true;
-            document.getElementById("pick").disabled = true;
-            cn = Math.floor(Math.random() * 13);
-            cs = Math.floor(Math.random() * 4);
-            pn = Math.floor(Math.random() * 13);
-            ps = Math.floor(Math.random() * 4);
-            while (cn == pn && cs == ps)
+            var length = localStorage.length;
+            var sub;
+            var exisit = 0;
+            var name;
+            for (var i = 0; i < length; ++i)
             {
+                var tmp = localStorage.key(i);
+                var n = tmp.startsWith("00657008.10-")
+                if (n == true)
+                {
+                    sub = tmp.substring(12);
+                    //console.log(sub);
+                    if (sub == "name")
+                    {
+                        name = localStorage.getItem("00657008.10-name");
+                        exisit++;
+                    }
+                    else if (sub == "coin")
+                    {
+                        coin = localStorage.getItem("00657008.10-coin");
+                        exisit++;
+                    }
+                }
+            }
+            //console.log(exisit);
+            if (exisit == 2)
+            {
+                name = localStorage.getItem("00657008.10-name");
+                document.getElementById("Hello").innerHTML = "Hello," + name + ":";
+                coin = localStorage.getItem("00657008.10-coin");
+                document.getElementById("Coin").innerHTML = "$" + coin;
+                document.getElementById("computer").setAttribute("src", "back.jpg");
+                document.getElementById("computer").setAttribute("alt", "back");
+                document.getElementById("resulttext").innerHTML = "您獲得：？？？ 元";
+                document.getElementById("bigorsmall").innerHTML = "這局比";
+                document.getElementById("sure").setAttribute("class", "sure_avaliable");
+                document.getElementById("big").setAttribute("class", "big_unavaliable");
+                document.getElementById("small").setAttribute("class", "small_unavaliable");
+                document.getElementById("pick").setAttribute("class", "pick_unavaliable");
+                document.getElementById("bet").disabled = false;
+                document.getElementById("sure").disabled = false;
+                document.getElementById("big").disabled = true;
+                document.getElementById("small").disabled = true;
+                document.getElementById("pick").disabled = true;
+                cn = Math.floor(Math.random() * 13);
+                cs = Math.floor(Math.random() * 4);
                 pn = Math.floor(Math.random() * 13);
                 ps = Math.floor(Math.random() * 4);
+                while (cn == pn && cs == ps) {
+                    pn = Math.floor(Math.random() * 13);
+                    ps = Math.floor(Math.random() * 4);
+                }
+                document.getElementById("player").setAttribute("src", suit[ps] + "-" + num[pn] + ".jpg");
+                document.getElementById("player").setAttribute("alt", suit[ps] + "-" + num[pn]);
+                /*console.log("cn=" + cn + ", num[cn]=" + num[cn] + ", cs=" + cs + ", suit[cs]=" + suit[cs]);
+                console.log("pn=" + cn + ", num[pn]=" + num[pn] + ", ps=" + ps + ", suit[ps]=" + suit[ps]);*/
             }
-            document.getElementById("player").setAttribute("src", suit[ps] + "-" + num[pn] + ".jpg");
-            document.getElementById("player").setAttribute("alt", suit[ps] + "-" + num[pn]);
-            console.log("cn=" + cn + ", num[cn]=" + num[cn] + ", cs=" + cs + ", suit[cs]=" + suit[cs]);
-            console.log("pn=" + cn + ", num[pn]=" + num[pn] + ", ps=" + ps + ", suit[ps]=" + suit[ps]);
+            else
+            {
+                window.alert("請回首頁輸入名字！！！");
+                document.location.href = "index.html";
+            }
         }
         function okay()
         {
             bet = parseInt(document.getElementById("bet").value);
             previous = bet;
-            console.log("bet=" + bet);
+            //console.log("bet=" + bet);
             document.getElementById("bet").disabled = true;
             document.getElementById("sure").disabled = true;
             document.getElementById("big").disabled = false;
@@ -353,7 +385,6 @@
                         bet = -bet;
                 }
             }
-            console.log(win);
         }
         function pick()
         {
@@ -369,10 +400,10 @@
             document.getElementById("bigorsmall").innerHTML = "這局比" + "<span>" + c + "</span>";
             document.getElementById("resulttext").innerHTML = "您獲得：" + bet + "元";
             var coin1=parseInt(coin);
-            var bet1=parseInt(bet);
+            var bet1 = parseInt(bet);
             coin=coin1+bet1;
-            document.getElementById("Coin").innerHTML="$"+coin;
-            localStorage.setItem("coin",coin);        
+            document.getElementById("Coin").innerHTML = "$" + coin;
+            localStorage.setItem("00657008.10-coin", coin);
         }
         window.addEventListener("load", newgame, false);
     </script>
